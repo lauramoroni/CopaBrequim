@@ -26,7 +26,7 @@ void CopaBrequim::Init()
     // bounding box
 
 
-    // cria jogador
+    // cria jogador teste
 
 
     // inicializa nível de abertura do jogo
