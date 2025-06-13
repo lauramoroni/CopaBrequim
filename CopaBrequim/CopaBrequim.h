@@ -27,9 +27,18 @@
 class CopaBrequim : public Game
 {
 private:
+     
     static Game* level;            // nível atual do jogo
 
 public:
+    enum CopaBrequimObjects {
+        PLAYER,
+        PLAYER1,
+        PLAYER2,
+        BALL,
+        WALLS  // sujeito a averiguação posterior
+    };
+
     static bool viewBBox;           // estado da bounding box
 
     void Init();                    // inicializa jogo

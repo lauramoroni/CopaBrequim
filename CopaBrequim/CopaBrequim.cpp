@@ -5,12 +5,13 @@
 // Atualização: 
 // Compilador:  Visual C++ 2022
 //
-// Descrição:   Jogo estilo plataforma usando a engine do curso
+// Descrição:   Jogo estilo topdown usando a engine do curso
 //
 **********************************************************************************/
 
 #include "Engine.h"
 #include "CopaBrequim.h"
+#include "Home.h"
 
 // ------------------------------------------------------------------------------
 
@@ -27,7 +28,7 @@ void CopaBrequim::Init()
 
 
     // cria jogador teste
-
+    
 
     // inicializa nível de abertura do jogo
 
@@ -48,6 +49,7 @@ void CopaBrequim::Update()
 void CopaBrequim::Draw()
 {
     // desenha nível
+
 }
 
 // ------------------------------------------------------------------------------
@@ -68,7 +70,7 @@ int APIENTRY WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 
     // configura o motor
     engine->window->Mode(WINDOWED);
-    engine->window->Size(600, 300);
+    engine->window->Size(1280, 800);
     engine->window->Color(30, 50, 80);
     engine->window->Title("CopaBrequim");
     engine->window->Icon(IDI_ICON);
@@ -76,7 +78,7 @@ int APIENTRY WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
     //engine->graphics->VSync(true);
 
     // inicia o jogo
-    int status = engine->Start(new CopaBrequim());
+    int status = engine->Start(new Home());
 
     delete engine;
     return status;
