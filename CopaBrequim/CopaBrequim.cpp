@@ -1,64 +1,17 @@
 /**********************************************************************************
-// CopaBrequim (Código Fonte)
+// CopaBrequim (CÃ³digo Fonte)
 //
-// Criação:     10 Jun 2025
-// Atualização: 
+// CriaÃ§Ã£o:     10 Jun 2025
+// AtualizaÃ§Ã£o: 
 // Compilador:  Visual C++ 2022
 //
-// Descrição:   Jogo estilo topdown usando a engine do curso
+// DescriÃ§Ã£o:   Jogo estilo topdown usando a engine do curso
 //
 **********************************************************************************/
 
 #include "Engine.h"
-#include "CopaBrequim.h"
+#include "Resources.h"
 #include "Home.h"
-
-// ------------------------------------------------------------------------------
-
-// inicializa membros estáticos da classe
-
-// ------------------------------------------------------------------------------
-
-void CopaBrequim::Init()
-{
-    // cria sistema de áudio
-    ;
-
-    // bounding box
-
-
-    // cria jogador teste
-    
-
-    // inicializa nível de abertura do jogo
-
-}
-
-// ------------------------------------------------------------------------------
-
-void CopaBrequim::Update()
-{
-    // habilita/desabilita visualização da bounding box
-
-    // atualiza nível
-
-}
-
-// ------------------------------------------------------------------------------
-
-void CopaBrequim::Draw()
-{
-    // desenha nível
-
-}
-
-// ------------------------------------------------------------------------------
-
-void CopaBrequim::Finalize()
-{
-    // finaliza nível
-}
-
 
 // ------------------------------------------------------------------------------
 //                                  WinMain                                      
