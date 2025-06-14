@@ -18,7 +18,9 @@ void Level1::Init()
 
     // adicionar players na cena
 
-    // pivot
+    // cria bola
+    // adiciona bola na cena
+    
     
 }
 
@@ -74,6 +76,10 @@ void Level1::Draw()
     // desenha cena
     backg->Draw(float(window->CenterX()), float(window->CenterY()), Layer::BACK);
     scene->Draw();
+
+    // desenha players
+
+	// desenha bola
 
     // desenha bounding box dos objetos
     if (viewBBox)

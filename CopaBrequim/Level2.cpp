@@ -17,7 +17,14 @@ void Level2::Init()
 
     // adicionar players na cena
 
-    // pivot
+	// cria bola
+	// adiciona bola na cena
+
+	// cria obstaculos estaticos
+	// adiciona obstaculos estaticos na cena
+
+	// cria obstaculos em movimento (possivelmente em um level3?)
+	// adiciona obstaculos em movimento na cena
 
 }
 
@@ -69,6 +76,10 @@ void Level2::Draw()
     // desenha cena
     backg->Draw(float(window->CenterX()), float(window->CenterY()), Layer::BACK);
     scene->Draw();
+
+    // desenha players
+
+    // desenha bola
 
     // desenha bounding box dos objetos
     if (viewBBox)
