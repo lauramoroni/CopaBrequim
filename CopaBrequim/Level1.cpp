@@ -107,8 +107,8 @@ void Level1::Draw()
     scene->Draw();
 
     // desenha players
-    p1->Draw()
-    p2->Draw()
+    p1->Draw();
+    p2->Draw();
      
 	  // desenha bola
 

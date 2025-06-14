@@ -19,7 +19,9 @@ private:
     Scene* scene = nullptr;        // gerenciador de cena
     bool viewBBox = false;         // habilita visualiza��o da bounding box
     Player1* p1;                   // Mcqueen
-	  Player2* p2;				           // Hudson
+	Player2* p2;				    // Hudson
+    bool ctrlKeyB = false;          // controle da tecla B
+
 
 public:
     void Init();                    // inicializa jogo
