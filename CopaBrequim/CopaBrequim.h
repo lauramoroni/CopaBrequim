@@ -1,11 +1,11 @@
 /**********************************************************************************
-// CopaBrequim (Arquivo de Cabeçalho)
+// CopaBrequim (Arquivo de CabeÃ§alho)
 //
-// Criação:     10 Jun 2025
-// Atualização: 
+// CriaÃ§Ã£o:     10 Jun 2025
+// AtualizaÃ§Ã£o: 
 // Compilador:  Visual C++ 2022
 //
-// Descrição:   Jogo estilo plataforma usando a engine do curso
+// DescriÃ§Ã£o:   Jogo estilo plataforma usando a engine do curso
 //
 **********************************************************************************/
 
@@ -20,36 +20,10 @@
 
 // ------------------------------------------------------------------------------
 
-// enum
+enum CopaBrequimObjects { PLAYER, BALL, STATIC_BARRIERS, MOVING_BARRIERS }; 
+	// static barriers = obstaculos estaticos, como paredes, trave, pilastres etc  
+	// moving barriers = obstaculos em movimentos, como um carro ou uma barra se movimentando na tela pra atrapalhar os players
 
 // ------------------------------------------------------------------------------
-
-class CopaBrequim : public Game
-{
-private:
-    static Game* level;            // nível atual do jogo
-
-public:
-    static bool viewBBox;           // estado da bounding box
-
-    void Init();                    // inicializa jogo
-    void Update();                  // atualiza lógica do jogo
-    void Draw();                    // desenha jogo
-    void Finalize();                // finaliza jogo
-
-    template<class T>
-    static void NextLevel()         // muda para próximo nível do jogo
-    {
-        if (level)
-        {
-            level->Finalize();
-            delete level;
-            level = new T();
-            level->Init();
-        }
-    };
-};
-
-// ---------------------------------------------------------------------------------
 
 #endif

@@ -84,6 +84,27 @@
     <ClCompile Include="CopaBrequim.cpp">
       <Filter>Game\Arquivos de Origem</Filter>
     </ClCompile>
+    <ClCompile Include="Home.cpp">
+      <Filter>Game\Arquivos de Origem</Filter>
+    </ClCompile>
+    <ClCompile Include="Level1.cpp">
+      <Filter>Game\Arquivos de Origem</Filter>
+    </ClCompile>
+    <ClCompile Include="Player1.cpp">
+      <Filter>Game\Arquivos de Origem</Filter>
+    </ClCompile>
+    <ClCompile Include="Player2.cpp">
+      <Filter>Game\Arquivos de Origem</Filter>
+    </ClCompile>
+    <ClCompile Include="Ball.cpp">
+      <Filter>Game\Arquivos de Origem</Filter>
+    </ClCompile>
+    <ClCompile Include="Level2.cpp">
+      <Filter>Game\Arquivos de Origem</Filter>
+    </ClCompile>
+    <ClCompile Include="GameOver.cpp">
+      <Filter>Game\Arquivos de Origem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resources.h">
@@ -144,6 +165,27 @@
       <Filter>Engine\Arquivos de Cabeçalho</Filter>
     </ClInclude>
     <ClInclude Include="CopaBrequim.h">
+      <Filter>Game\Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="Player1.h">
+      <Filter>Game\Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="Home.h">
+      <Filter>Game\Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="Level1.h">
+      <Filter>Game\Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="Player2.h">
+      <Filter>Game\Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="Ball.h">
+      <Filter>Game\Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="Level2.h">
+      <Filter>Game\Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOver.h">
       <Filter>Game\Arquivos de Cabeçalho</Filter>
     </ClInclude>
   </ItemGroup>

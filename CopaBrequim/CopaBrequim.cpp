@@ -1,62 +1,17 @@
 /**********************************************************************************
-// CopaBrequim (Código Fonte)
+// CopaBrequim (CÃ³digo Fonte)
 //
-// Criação:     10 Jun 2025
-// Atualização: 
+// CriaÃ§Ã£o:     10 Jun 2025
+// AtualizaÃ§Ã£o: 
 // Compilador:  Visual C++ 2022
 //
-// Descrição:   Jogo estilo plataforma usando a engine do curso
+// DescriÃ§Ã£o:   Jogo estilo topdown usando a engine do curso
 //
 **********************************************************************************/
 
 #include "Engine.h"
-#include "CopaBrequim.h"
-
-// ------------------------------------------------------------------------------
-
-// inicializa membros estáticos da classe
-
-// ------------------------------------------------------------------------------
-
-void CopaBrequim::Init()
-{
-    // cria sistema de áudio
-    ;
-
-    // bounding box
-
-
-    // cria jogador teste
-
-
-    // inicializa nível de abertura do jogo
-
-}
-
-// ------------------------------------------------------------------------------
-
-void CopaBrequim::Update()
-{
-    // habilita/desabilita visualização da bounding box
-
-    // atualiza nível
-
-}
-
-// ------------------------------------------------------------------------------
-
-void CopaBrequim::Draw()
-{
-    // desenha nível
-}
-
-// ------------------------------------------------------------------------------
-
-void CopaBrequim::Finalize()
-{
-    // finaliza nível
-}
-
+#include "Resources.h"
+#include "Home.h"
 
 // ------------------------------------------------------------------------------
 //                                  WinMain                                      
@@ -68,7 +23,7 @@ int APIENTRY WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 
     // configura o motor
     engine->window->Mode(WINDOWED);
-    engine->window->Size(600, 300);
+    engine->window->Size(1280, 800);
     engine->window->Color(30, 50, 80);
     engine->window->Title("CopaBrequim");
     engine->window->Icon(IDI_ICON);
@@ -76,7 +31,7 @@ int APIENTRY WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
     //engine->graphics->VSync(true);
 
     // inicia o jogo
-    int status = engine->Start(new CopaBrequim());
+    int status = engine->Start(new Home());
 
     delete engine;
     return status;
