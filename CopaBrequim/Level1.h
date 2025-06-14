@@ -29,8 +29,8 @@ private:
     Sprite* backg = nullptr;       // background
     Scene* scene = nullptr;        // gerenciador de cena
     bool viewBBox = false;         // habilita visualização da bounding box
-    Player1* p1;                     // Mcqueen
-	Player2* p2;				       // Hudson
+    Player1* p1;                   // Mcqueen
+	Player2* p2;				   // Hudson
 
 public:
     void Init();                    // inicializa jogo

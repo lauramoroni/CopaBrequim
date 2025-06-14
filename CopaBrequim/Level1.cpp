@@ -14,6 +14,7 @@
 #include "Level1.h"
 #include "Player1.h"
 #include "Player2.h"
+#include "Ball.h"
 #include <string>
 #include <fstream>
 using std::ifstream;
@@ -60,6 +61,10 @@ void Level1::Init()
 
     p2 = new Player2(sprites2, false);
 	scene->Add(p2, MOVING);
+
+    Sprite* ballSprite = new Sprite("Resources/football.png");
+    scene->Add(new Ball(ballSprite), MOVING);
+
 }
 
 // ------------------------------------------------------------------------------
