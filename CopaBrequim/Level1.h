@@ -9,6 +9,7 @@
 #include "Scene.h"
 #include "Player1.h"
 #include "Player2.h"
+#include "Scoreboard.h"
 
 // ------------------------------------------------------------------------------
 
@@ -21,7 +22,7 @@ private:
     Player1* p1;                   // Mcqueen
 	Player2* p2;				    // Hudson
     bool ctrlKeyB = false;          // controle da tecla B
-
+	Scoreboard* scoreboard = nullptr; // placar do jogo
 
 public:
     void Init();                    // inicializa jogo

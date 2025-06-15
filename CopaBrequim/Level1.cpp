@@ -1,6 +1,7 @@
 #include "Ball.h"
 #include "Engine.h"
 #include "Home.h"
+#include "Scoreboard.h"
 #include "Level1.h"
 #include "Level2.h"
 #include "Player1.h"
@@ -57,6 +58,13 @@ void Level1::Init()
     Sprite* ballSprite = new Sprite("Resources/football.png");
     scene->Add(new Ball(ballSprite), MOVING);
   
+    // carrega placar
+    //keyMap = new Sprite("Resources/background/placar.png");
+	scoreboard = new Scoreboard();
+
+	// inicializa placar
+	scoreboard->Init();
+
 }
 
 // ------------------------------------------------------------------------------
@@ -94,12 +102,18 @@ void Level1::Update()
         scene->Update();
         scene->CollisionDetection();
     }
+
+	// atualiza placar
 }
 
 // ------------------------------------------------------------------------------
 
 void Level1::Draw()
 {
+    // desenha placar
+    //keyMap->Draw(window->CenterX(), window->Height() - 20.0f, Layer::FRONT);
+    scoreboard->Draw();
+
     // desenha o background
     backg->Draw(float(window->CenterX()), float(window->CenterY()), Layer::BACK);
   
@@ -115,6 +129,13 @@ void Level1::Draw()
     // desenha bounding box dos objetos
     if (viewBBox)
         scene->DrawBBox();
+
+    // desenha texto
+    //Color gray{ 0.70f, 0.70f, 0.70f, 1.0f };
+
+    //font->Draw(window->CenterX(), window->Height() - 14.0f, "01:43", gray);
+    //font->Draw(window->CenterX() - 130.0f, window->Height() - 4.0f, " 1 ", gray);
+    //font->Draw(window->CenterX() + 130.0f, window->Height() - 4.0f, " 0 ", gray);
 }
 
 // ------------------------------------------------------------------------------
@@ -123,6 +144,7 @@ void Level1::Finalize()
 {
     delete backg;
     delete scene;
+    delete scoreboard;
 }
 
 // ------------------------------------------------------------------------------
