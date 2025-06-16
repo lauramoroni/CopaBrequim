@@ -105,7 +105,7 @@
     <ClCompile Include="GameOver.cpp">
       <Filter>Game\Arquivos de Origem</Filter>
     </ClCompile>
-    <ClCompile Include="Scoreboard.cpp">
+    <ClCompile Include="Score.cpp">
       <Filter>Game\Arquivos de Origem</Filter>
     </ClCompile>
   </ItemGroup>
@@ -191,7 +191,7 @@
     <ClInclude Include="GameOver.h">
       <Filter>Game\Arquivos de Cabeçalho</Filter>
     </ClInclude>
-    <ClInclude Include="Scoreboard.h">
+    <ClInclude Include="Score.h">
       <Filter>Game\Arquivos de Cabeçalho</Filter>
     </ClInclude>
   </ItemGroup>

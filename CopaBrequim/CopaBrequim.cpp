@@ -30,7 +30,7 @@ int APIENTRY WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 
     // configura o motor
     engine->window->Mode(WINDOWED);
-    engine->window->Size(1280, 700);
+    engine->window->Size(1024, 700);
     engine->window->Color(30, 50, 80);
     engine->window->Title("CopaBrequim");
     engine->window->Icon(IDI_ICON);

@@ -27,6 +27,8 @@ Player2::Player2(const PlayerSpritesPath& sprites, bool isp1) {
     isPlayer1 = isp1;
 
     BBox(new Rect(-26, -24, 26, 24));
+
+    // estado inicial do player
     MoveTo(window->Width() - spriteR->Width() - 150.0f, window->CenterY());
 
     // type = PLAYER; onde ele define isso?
@@ -206,7 +208,7 @@ void Player2::Draw() {
 
 // ---------------------------------------------------------------------------------
 void Player2::Reset() {
-    MoveTo(window->CenterX(), spriteU->Height());
+    MoveTo(window->Width() - spriteR->Width() - 150.0f, window->CenterY());
     currState = STOPPED;
     velX = 0;
     velY = 0;

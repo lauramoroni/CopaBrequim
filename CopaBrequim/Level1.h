@@ -9,7 +9,6 @@
 #include "Scene.h"
 #include "Player1.h"
 #include "Player2.h"
-#include "Scoreboard.h"
 #include "Ball.h"
 #include "Score.h"
 // ------------------------------------------------------------------------------
@@ -27,9 +26,9 @@ private:
     enum gameState { PAUSED, RUNNING }; // necessário aos resets globais
     gameState currentGameState;
     
+    bool pressSpace = false;
     bool viewBBox = false;         // habilita visualizacao da bounding box
     bool ctrlKeyB = false;          // controle da tecla B
-	Scoreboard* scoreboard = nullptr; // placar do jogo
 
 public:
     void Init();                    // inicializa jogo

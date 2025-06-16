@@ -1,7 +1,6 @@
 #include "Ball.h"
 #include "Engine.h"
 #include "Home.h"
-#include "Scoreboard.h"
 #include "Level1.h"
 #include "Level2.h"
 #include "Player1.h"
@@ -82,15 +81,18 @@ void Level1::Update()
     if (window->KeyDown(VK_ESCAPE))
     {
 		Engine::Next<Home>();
+        return;
     }
     if (window->KeyDown('N'))
     {
-		    Engine::Next<Level2>(); 
+		Engine::Next<Level2>(); 
+        return;
 	  }
 	if (window->KeyDown('R'))
 	{
 		// reinicia o level
 		Engine::Next<Level1>();
+        return;
 	}
 
     if (window->KeyPress(VK_SPACE)) { // press space to start
@@ -142,7 +144,7 @@ void Level1::Update()
 void Level1::Draw()
 {
     // desenha placar
-    scoreboard->Draw();
+    score->Draw();
 
     // desenha o background
     backg->Draw(float(window->CenterX()), float(window->CenterY()), Layer::BACK);
@@ -161,7 +163,6 @@ void Level1::Finalize()
 {
     delete backg;
     delete scene;
-
 }
 
 // ------------------------------------------------------------------------------

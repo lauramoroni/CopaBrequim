@@ -23,6 +23,8 @@ class Score : public Object
 private:
 	Font * font = nullptr;
 	Timer* timer = nullptr;
+	Sprite* keyMap;      // caixa para placar 
+	Sprite* pressEnter;      // caixa para placar 
 
 public:
 	
