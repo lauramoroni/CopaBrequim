@@ -96,95 +96,101 @@ void Player1::Right()
 
 // ---------------------------------------------------------------------------------
 
+void Player1::Start() {
+    started = true;
+}
+
 void Player1::Update() {
-    if (window->KeyDown(VK_LEFT))
-    {
-        Left();
-        Translate(velX * gameTime, velY * gameTime);
+    if (started) {
+        if (window->KeyDown(VK_LEFT))
+        {
+            Left();
+            Translate(velX * gameTime, velY * gameTime);
+        }
+
+        if (window->KeyDown(VK_RIGHT))
+        {
+            Right();
+            Translate(velX * gameTime, velY * gameTime);
+        }
+
+        if (window->KeyDown(VK_UP))
+        {
+            Up();
+            Translate(velX * gameTime, velY * gameTime);
+        }
+
+        if (window->KeyDown(VK_DOWN))
+        {
+            Down();
+            Translate(velX * gameTime, velY * gameTime);
+        }
+
+        if (window->KeyDown(VK_UP) && window->KeyDown(VK_RIGHT)) {
+            currState = UPRIGHT;
+
+            velX = p1MainVelocity;
+            velY = -p1MainVelocity;
+
+            float magnitude = sqrt(velX * velX + velY * velY);
+            velX = velX / (magnitude * 0.707f);
+            velY = velY / (magnitude * 0.707f);
+
+            Translate(velX * gameTime, velY * gameTime);
+        }
+
+        if (window->KeyDown(VK_UP) && window->KeyDown(VK_LEFT)) {
+            currState = UPLEFT;
+
+            velX = -p1MainVelocity;
+            velY = -p1MainVelocity;
+
+            float magnitude = sqrt(velX * velX + velY * velY);
+            velX = velX / (magnitude * 0.707f);
+            velY = velY / (magnitude * 0.707f);
+
+            Translate(velX * gameTime, velY * gameTime);
+        }
+
+        if (window->KeyDown(VK_DOWN) && window->KeyDown(VK_RIGHT)) {
+            currState = DOWNRIGHT;
+
+            velX = p1MainVelocity;
+            velY = p1MainVelocity;
+
+            float magnitude = sqrt(velX * velX + velY * velY);
+            velX = velX / (magnitude * 0.707f);
+            velY = velY / (magnitude * 0.707f);
+
+            Translate(velX * gameTime, velY * gameTime);
+        }
+
+        if (window->KeyDown(VK_DOWN) && window->KeyDown(VK_LEFT)) {
+            currState = DOWNLEFT;
+
+            velX = -p1MainVelocity;
+            velY = p1MainVelocity;
+
+            float magnitude = sqrt(velX * velX + velY * velY);
+            velX = velX / (magnitude * 0.707f);
+            velY = velY / (magnitude * 0.707f);
+
+            Translate(velX * gameTime, velY * gameTime);
+        }
+
+        // mantém player dentro da tela por redesenhar ele do outro lado
+        if (x + 33 < 0)
+            MoveTo(window->Width() + 20.f, Y());
+
+        if (x - 20 > window->Width())
+            MoveTo(-20.0f, Y());
+
+        if (Y() + 20 < 0)
+            MoveTo(x, window->Height() + 20.0f);
+
+        if (Y() - 20 > window->Height())
+            MoveTo(x, -20.0f);
     }
-
-    if (window->KeyDown(VK_RIGHT))
-    {
-        Right();
-        Translate(velX * gameTime, velY * gameTime);
-    }
-
-    if (window->KeyDown(VK_UP))
-    {
-        Up();
-        Translate(velX * gameTime, velY * gameTime);
-    }
-
-    if (window->KeyDown(VK_DOWN))
-    {
-        Down();
-        Translate(velX * gameTime, velY * gameTime);
-    }
-
-    if (window->KeyDown(VK_UP) && window->KeyDown(VK_RIGHT)) {
-        currState = UPRIGHT;
-
-        velX = p1MainVelocity;
-        velY = -p1MainVelocity;
-
-        float magnitude = sqrt(velX * velX + velY * velY);
-        velX = velX / (magnitude * 0.707f);
-        velY = velY / (magnitude * 0.707f);
-
-        Translate(velX * gameTime, velY * gameTime);
-    }
-
-    if (window->KeyDown(VK_UP) && window->KeyDown(VK_LEFT)) {
-        currState = UPLEFT;
-
-        velX = -p1MainVelocity;
-        velY = -p1MainVelocity;
-
-        float magnitude = sqrt(velX * velX + velY * velY);
-        velX = velX / (magnitude * 0.707f);
-        velY = velY / (magnitude * 0.707f);
-
-        Translate(velX * gameTime, velY * gameTime);
-    }
-
-    if (window->KeyDown(VK_DOWN) && window->KeyDown(VK_RIGHT)) {
-        currState = DOWNRIGHT;
-
-        velX = p1MainVelocity;
-        velY = p1MainVelocity;
-
-        float magnitude = sqrt(velX * velX + velY * velY);
-        velX = velX / (magnitude * 0.707f);
-        velY = velY / (magnitude * 0.707f);
-
-        Translate(velX * gameTime, velY * gameTime);
-    }
-
-    if (window->KeyDown(VK_DOWN) && window->KeyDown(VK_LEFT)) {
-        currState = DOWNLEFT;
-
-        velX = -p1MainVelocity;
-        velY = p1MainVelocity;
-
-        float magnitude = sqrt(velX * velX + velY * velY);
-        velX = velX / (magnitude * 0.707f);
-        velY = velY / (magnitude * 0.707f);
-
-        Translate(velX * gameTime, velY * gameTime);
-    }
-
-    // mantém player dentro da tela por redesenhar ele do outro lado
-    if (x + 33 < 0)
-        MoveTo(window->Width() + 20.f, Y());
-
-    if (x - 20 > window->Width())
-        MoveTo(-20.0f, Y());
-
-    if (Y() + 20 < 0)
-        MoveTo(x, window->Height() + 20.0f);
-
-    if (Y() - 20 > window->Height())
-        MoveTo(x, -20.0f);
 }
 
 // ---------------------------------------------------------------------------------
@@ -210,4 +216,14 @@ void Player1::Draw() {
     case UPLEFT: spriteUL->Draw(x, y, Layer::UPPER); break;
     case DOWNLEFT: spriteDL->Draw(x, y, Layer::UPPER); break;
     }
+}
+
+// ---------------------------------------------------------------------------------
+
+void Player1::Reset() {
+    MoveTo(window->CenterX(), window->Height() - spriteU->Height());
+    started = false;
+    currState = STOPPED;
+    velX = 0;
+	velY = 0;
 }

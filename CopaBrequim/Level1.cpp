@@ -6,6 +6,7 @@
 #include "Level2.h"
 #include "Player1.h"
 #include "Player2.h"
+#include "Score.h"
 
 // ------------------------------------------------------------------------------
 
@@ -56,15 +57,11 @@ void Level1::Init()
     // cria bola
     // adiciona bola na cena
     Sprite* ballSprite = new Sprite("Resources/football.png");
-    scene->Add(new Ball(ballSprite), MOVING);
-  
-    // carrega placar
-    //keyMap = new Sprite("Resources/background/placar.png");
-	scoreboard = new Scoreboard();
+	ball = new Ball(ballSprite);
+    scene->Add(ball, MOVING);
 
-	// inicializa placar
-	scoreboard->Init();
-
+    score = new Score();
+    scene->Add(score, STATIC);
 }
 
 // ------------------------------------------------------------------------------
@@ -77,7 +74,7 @@ void Level1::Update()
         viewBBox = !viewBBox;
         ctrlKeyB = false;
     }
-    else if (window->KeyUp('B'))
+    if (window->KeyUp('B'))
     {
         ctrlKeyB = true;
     }
@@ -86,24 +83,58 @@ void Level1::Update()
     {
 		Engine::Next<Home>();
     }
-    else if (window->KeyDown('N'))
+    if (window->KeyDown('N'))
     {
 		    Engine::Next<Level2>(); 
 	  }
-	  else if (window->KeyDown('R'))
-	  {
-		    // reinicia o level
-		    Engine::Next<Level1>();
-	  }
-    else
-    {
-        // atualiza cena
-        scene->Update();
-        scene->CollisionDetection();
+	if (window->KeyDown('R'))
+	{
+		// reinicia o level
+		Engine::Next<Level1>();
+	}
+
+    if (window->KeyPress(VK_SPACE)) { // press space to start
+        p1->Start();
+        p2->Start();
+        score->Start();
     }
 
-	// atualiza placar
-	//scoreboard->Update();
+    if (ball->X() > window->Width()) // se a bola bate na esquerda da tela
+    {
+		int scoreP1 = score->GetP1Score();
+		int scoreP2 = score->GetP2Score();
+        OutputDebugString("Gol do Hudson!");
+		score->p1_score = scoreP1 + 1;
+        p1->Reset();
+        p2->Reset();
+        ball->Reset();
+        score->Stop();
+        currentGameState = PAUSED;
+	}
+
+    if (ball->X() < 0) { // se a bola bate na direita da tela
+        int scoreP1 = score->GetP1Score();
+        int scoreP2 = score->GetP2Score();
+        OutputDebugString("Gol do McQueen!");
+        score->p2_score = scoreP2 + 1;
+        p1->Reset();
+        p2->Reset();
+        ball->Reset();
+        score->Stop();
+        currentGameState = PAUSED;
+      }
+
+    if (score->GetP1Score() == 5 || score->GetP2Score() == 5 || score->timeOver) { // condi��es de fim de partida
+        p1->Reset();
+        p2->Reset();
+        score->Reset();
+        ball->Reset();
+        currentGameState = PAUSED;
+    }
+
+    // atualiza cena
+    scene->Update();
+    scene->CollisionDetection();
 }
 
 // ------------------------------------------------------------------------------
@@ -119,12 +150,6 @@ void Level1::Draw()
     // desenha cena
     scene->Draw();
 
-    // desenha players
-    p1->Draw();
-    p2->Draw();
-     
-	// desenha bola
-
     // desenha bounding box dos objetos
     if (viewBBox)
         scene->DrawBBox();
@@ -136,7 +161,6 @@ void Level1::Finalize()
 {
     delete backg;
     delete scene;
-    delete scoreboard;
 
 }
 
