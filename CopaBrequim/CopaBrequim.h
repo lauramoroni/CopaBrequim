@@ -20,6 +20,7 @@
 #include "Sprite.h"
 #include "Scene.h"
 #include "Font.h"
+#include "Score.h"
 
 // ------------------------------------------------------------------------------
 
@@ -40,6 +41,9 @@ private:
 public:
 	static Scene* scene;           // cena do jogo
 	static Audio* audio;           // sistema de áudio
+
+	static int mcQueenScore;
+	static int hudsonScore;
 
 	void Init();
 	void Update();

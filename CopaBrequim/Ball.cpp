@@ -16,7 +16,7 @@
 
 Ball::Ball() {
 	// cria sprite da bola
-	ballSprite = new Sprite("Resources/football.png");
+	ballSprite = new Sprite("Resources/sprites/football.png");
 	
 	// Aproximação hexagonal para o BBox
 	Point ballVertex[10] = {

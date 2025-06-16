@@ -19,6 +19,8 @@
 
 Scene * CopaBrequim::scene = nullptr;         // cena do jogo
 Audio * CopaBrequim::audio = nullptr;         // sistema de áudio
+int CopaBrequim::mcQueenScore = 0;            // pontuação do McQueen
+int CopaBrequim::hudsonScore = 0;            // pontuação do Hudson
 
 // ------------------------------------------------------------------------------
 //                                  WinMain                                      

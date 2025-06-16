@@ -1,3 +1,4 @@
+#include "CopaBrequim.h"
 #include "Ball.h"
 #include "Engine.h"
 #include "Home.h"
@@ -6,6 +7,7 @@
 #include "MCQueen.h"
 #include "Hudson.h"
 #include "Score.h"
+#include "GameOver.h"
 
 // ------------------------------------------------------------------------------
 
@@ -26,8 +28,7 @@ void Level1::Init()
 
     // cria bola
     // adiciona bola na cena
-    Sprite* ballSprite = new Sprite("Resources/sprites/football.png");
-	ball = new Ball(ballSprite);
+	ball = new Ball();
     scene->Add(ball, MOVING);
   
 	// cria placar
@@ -81,10 +82,7 @@ void Level1::Update()
 
     if (ball->X() > window->Width()) // se a bola bate na esquerda da tela
     {
-        int scoreP1 = score->GetP1Score();
-        int scoreP2 = score->GetP2Score();
-        OutputDebugString("Gol do Hudson!");
-        score->mcQueen_score = scoreP1 + 1;
+        CopaBrequim::hudsonScore++;
         mcQueen->Reset();
         hudson->Reset();
         ball->Reset();
@@ -93,10 +91,7 @@ void Level1::Update()
     }
 
     if (ball->X() < 0) { // se a bola bate na direita da tela
-        int scoreP1 = score->GetP1Score();
-        int scoreP2 = score->GetP2Score();
-        OutputDebugString("Gol do McQueen!");
-        score->hudson_score = scoreP2 + 1;
+        CopaBrequim::mcQueenScore++;
         mcQueen->Reset();
         hudson->Reset();
         ball->Reset();
@@ -104,12 +99,10 @@ void Level1::Update()
         currentGameState = PAUSED;
     }
 
-    if (score->GetP1Score() == 5 || score->GetP2Score() == 5 || score->timeOver) { // condi��es de fim de partida
-        mcQueen->Reset();
-        hudson->Reset();
-        score->Reset();
-        ball->Reset();
-        currentGameState = PAUSED;
+    if (CopaBrequim::mcQueenScore == 5 || CopaBrequim::hudsonScore == 5 || score->timeOver) { // condi��es de fim de partida
+		Engine::Next<GameOver>();
+
+        return;
     }
 
     // atualiza cena

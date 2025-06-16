@@ -24,9 +24,12 @@ Score::Score() {
 	
 	// carrega mensagem
 	pressEnter = new Sprite("Resources/background/press_space.png");
+
+	// tip
+	tip = new Sprite("Resources/background/guido_tip.png");
 	
-	mcQueen_score = 0;
-	hudson_score = 0;
+	CopaBrequim::mcQueenScore = 0;
+	CopaBrequim::hudsonScore = 0;
 
 	timer = new Timer();
 	
@@ -42,13 +45,14 @@ Score::~Score() {
 	delete font;
 	delete keyMap;
 	delete pressEnter;
+	delete tip;
 }
 
 // ---------------------------------------------------------------------------------
 
 void Score::Reset() { // volta todos os elementos ao seu estado inicial
-	mcQueen_score = 0;
-	hudson_score = 0;
+	CopaBrequim::mcQueenScore = 0;
+	CopaBrequim::hudsonScore = 0;
 	timer->Stop();
 	timer->Reset();
 	timerOn = false;
@@ -89,10 +93,12 @@ void Score::Draw() {
 
 	// desenha tempo e placar
 	Color gray{ 0.70f, 0.70f, 0.70f, 1.0f };
+	Color black{ 0.0f, 0.0f, 0.0f, 1.0f };	
 
-	font->Draw(window->CenterX() - 130.0f, window->Height() - 4.0f, to_string(mcQueen_score), gray);
-	font->Draw(window->CenterX() + 130.0f, window->Height() - 4.0f, to_string(hudson_score), gray);
+	font->Draw(window->CenterX() - 130.0f, window->Height() - 4.0f, to_string(CopaBrequim::hudsonScore), gray);
+	font->Draw(window->CenterX() + 150.0f, window->Height() - 4.0f, to_string(CopaBrequim::mcQueenScore), gray);
 
+	tip->Draw(100.0f, window->Height() - 40.0f, Layer::FRONT);
 
 	if (timerOn) { // atualiza o rel�gio da partida
 		string elapsedTime = to_string(maxTime - (int)timer->Elapsed()); //TODO bug-fix: timer pausado n�o � exibido corretamente
