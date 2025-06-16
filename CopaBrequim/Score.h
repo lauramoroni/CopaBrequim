@@ -28,7 +28,7 @@ private:
 	Sprite* tip;      // caixa para instruções
 
 public:
-	const int maxTime = 10;			// tempo máximo da partida em segundos
+	const int maxTime = 180;			// tempo máximo da partida em segundos
 	bool timerOn = false;				// verifica se o tempo está rodando
 	bool timeOver = false;				// verifica se acabou o tempo de partida
 
