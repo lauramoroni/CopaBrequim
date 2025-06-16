@@ -55,7 +55,7 @@ void Level1::Init()
 
     // cria bola
     // adiciona bola na cena
-    Sprite* ballSprite = new Sprite("Resources/football.png");
+    Sprite* ballSprite = new Sprite("Resources/sprites/football.png");
 	ball = new Ball(ballSprite);
     scene->Add(ball, MOVING);
 

@@ -54,7 +54,7 @@ void Level2::Init()
 
 	// cria bola
 	// adiciona bola na cena
-    Sprite* ballSprite = new Sprite("Resources/football.png");
+    Sprite* ballSprite = new Sprite("Resources/sprites/football.png");
     ball = new Ball(ballSprite);
     scene->Add(ball, MOVING);
 
@@ -98,7 +98,7 @@ void Level2::Update()
     if (window->KeyDown('R'))
     {
         // reinicia o level
-        Engine::Next<Level1>();
+        Engine::Next<Level2>();
         return;
     }
 
