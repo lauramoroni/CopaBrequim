@@ -27,11 +27,35 @@ Ball::Ball(Sprite * ball) {
 // ---------------------------------------------------------------------------------
 
 Ball::~Ball() {
+
 }
 
 // ---------------------------------------------------------------------------------
 
-void Ball::Update() {
+void Ball::Update() { // placeholders de movimento da bola para testes
+	if (window->KeyDown('I')) {
+		velX = 0;
+		velY = -600.0f;
+		Translate(velX * gameTime, velY * gameTime);
+	}
+	else if (window->KeyDown('K')) {
+		velX = 0;
+		velY = 600.0f;
+		Translate(velX * gameTime, velY * gameTime);
+	}
+	else if (window->KeyDown('J')) {
+		velX = -600.0f;
+		velY = 0;
+		Translate(velX * gameTime, velY * gameTime);
+	}
+	else if (window->KeyDown('L')) {
+		velX = 600.0f;
+		velY = 0;
+		Translate(velX * gameTime, velY * gameTime);
+	} else {
+		velX = 0;
+		velY = 0;
+	}
 
 }
 

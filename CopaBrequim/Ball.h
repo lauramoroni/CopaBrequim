@@ -31,8 +31,15 @@ public:
 	void OnCollision(Object* obj);
 	void Update();
 	void Draw();
+	void Reset();
 };
 
+inline void Ball::Reset() { // reset de posição da bola
+	velX = 0;
+	velY = 0;
+	MoveTo(window->CenterX(), window->CenterY(), 0);
+
+}
 
 inline void Ball::Draw()
 { sprite->Draw(x, y, z); }
