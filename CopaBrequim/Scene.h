@@ -1,12 +1,12 @@
 /**********************************************************************************
 // Scene (Arquivo de Cabeçalho)
-// 
+//
 // Criação:     16 Mar 2012
-// Atualização: 28 Fev 2023
+// Atualização: 28 Set 2023
 // Compilador:  Visual C++ 2022
 //
 // Descrição:   Define uma classe para gerenciar o cenário do jogo.
-//                
+//
 //              Um gerenciador de cena é responsável por guardar os objetos
 //              da cena, atualizando-os e desenhando-os de forma mais prática.
 //              Ele pode ser usado também para outras tarefas que impliquem em
@@ -32,7 +32,7 @@ enum ObjectGroup
 };
 
 using ObjectPair = pair<Object*, Object*>;      // par de objetos em colisão
-using ObjectDel  = pair<Object*, int>;          // <objeto,tipo> a deletar da cena
+using ObjectDel = pair<Object*, int>;          // <objeto,tipo> a deletar da cena
 
 // ---------------------------------------------------------------------------------
 
@@ -41,7 +41,7 @@ class Scene
 private:
     list<Object*> statics;                      // lista de objetos estáticos
     list<Object*> moving;                       // lista de objetos em movimento
-    
+
     list<ObjectPair> collisions;                // lista de pares de objetos em colisão
     list<ObjectDel> toDelete;                   // lista de objetos a deletar da cena
 
@@ -51,42 +51,50 @@ private:
 
     int processing = STATIC;                    // indica qual lista de objetos está sendo processada
 
-    bool Collision(Point * p, Point * q);       // colisão entre ponto e ponto
-    bool Collision(Point * p, Rect * r);        // colisão entre ponto e retângulo    
-    bool Collision(Point * p, Circle * c);      // colisão entre ponto e círculo
+    bool Collision(Point* p, Point* q);       // colisão entre ponto e ponto
+    bool Collision(Point* p, Rect* r);        // colisão entre ponto e retângulo    
+    bool Collision(Point* p, Circle* c);      // colisão entre ponto e círculo
+    bool Collision(Point* p, Poly* pol);      // colisão entre ponto e polígono
 
-    bool Collision(Rect * ra, Rect * rb);       // colisão entre retângulos
-    bool Collision(Rect * r, Point * p);        // colisão entre retângulo e ponto (inline)
-    bool Collision(Rect * r, Circle * c);       // colisão entre retângulo e círculo
+    bool Collision(Rect* ra, Rect* rb);       // colisão entre retângulos
+    bool Collision(Rect* r, Point* p);        // colisão entre retângulo e ponto (inline)
+    bool Collision(Rect* r, Circle* c);       // colisão entre retângulo e círculo
+    bool Collision(Rect* r, Poly* pol);         // colisão entre retângulo e polígono
 
-    bool Collision(Circle * ca, Circle * cb);   // colisão entre círculos
-    bool Collision(Circle * c, Point * p);      // colisão entre círculo e ponto (inline)
-    bool Collision(Circle * c, Rect * r);       // colisão entre círculo e retângulo (inline)
+    bool Collision(Circle* ca, Circle* cb);   // colisão entre círculos
+    bool Collision(Circle* c, Point* p);      // colisão entre círculo e ponto (inline)
+    bool Collision(Circle* c, Rect* r);       // colisão entre círculo e retângulo (inline)
+    bool Collision(Circle* c, Poly* pol);     // colisão entre círculo e polígono
 
-    bool Collision(Mixed * m, Geometry * s);    // colisão entre geometria mista e uma forma qualquer
-    bool Collision(Geometry * s, Mixed * m);    // colisão entre geometria mista e uma forma qualquer (inline)
+    bool Collision(Poly* pa, Poly* pb);         // colisão entre polígonos
+    bool Collision(Poly* pol, Point* p);        // colisão entre polígono e ponto (inline)
+    bool Collision(Poly* pol, Rect* r);         // colisão entre polígono e retângulo (inline)
+    bool Collision(Poly* pol, Circle* c);       // colisão entre polígono e círculo (inline)
 
-    void ClearDeleted();                        // apaga elementos marcados para exclusão
-    
+    bool Collision(Mixed* m, Geometry* s);    // colisão entre geometria mista e uma forma qualquer
+    bool Collision(Geometry* s, Mixed* m);    // colisão entre geometria mista e uma forma qualquer (inline)
+
+    void ProcessDeleted();                      // apaga elementos marcados para exclusão
+
 public:
     Scene();                                    // construtor
     ~Scene();                                   // destrutor da cena
 
-    void Add(Object * obj, int type);           // adiciona objeto na cena
-    void Remove(Object* obj, int type);         // remove objeto da cena, sem deletar
-    void Remove();                              // remove objeto sendo processado na cena, sem deletar
-    void Delete(Object * obj, int type);        // deleta objeto da lista indicada (STATIC ou MOVING)
+    void Add(Object* obj, int type);           // adiciona objeto na lista STATIC ou MOVING da cena
+    void Remove(Object* obj, int type);         // remove objeto da cena sem deletar
+    void Remove();                              // remove objeto sendo processado na cena sem deletar
+    void Delete(Object* obj, int type);        // deleta objeto da lista indicada (STATIC ou MOVING)
     void Delete();                              // deleta o objeto cujo Update/Draw está sendo executado
     uint Size();                                // retorna a quantidade de objetos na cena
 
     void Begin();                               // inicia percurso na lista de objetos
-    Object * Next();                            // retorna próximo objeto da lista
+    Object* Next();                            // retorna próximo objeto da lista
 
     void Update();                              // atualiza todos os objetos da cena
     void Draw();                                // desenha todos os objetos da cena
     void DrawBBox();                            // desenha a bounding box dos objetos na cena
 
-    bool Collision(Object * oa, Object * ob);   // verifica se há colisão entre dois objetos
+    bool Collision(Object* oa, Object* ob);   // verifica se há colisão entre dois objetos
     void CollisionDetection();                  // trata a colisão entre objetos da cena
 };
 
@@ -95,19 +103,45 @@ public:
 
 // colisão entre retângulo e ponto
 inline bool Scene::Collision(Rect* r, Point* p)
-{ return Collision(p, r); }
+{
+    return Collision(p, r);
+}
 
 // colisão entre círculo e ponto
 inline bool Scene::Collision(Circle* c, Point* p)
-{ return Collision(p, c); }
+{
+    return Collision(p, c);
+}
 
 // colisão entre círculo e retângulo
 inline bool Scene::Collision(Circle* c, Rect* r)
-{     return Collision(r, c); }
+{
+    return Collision(r, c);
+}
+
+// colisão entre polígono e ponto
+inline bool Scene::Collision(Poly* pol, Point* p)
+{
+    return Collision(p, pol);
+}
+
+// colisão entre polígono e retângulo
+inline bool Scene::Collision(Poly* pol, Rect* r)
+{
+    return Collision(r, pol);
+}
+
+// colisão entre polígono e círculo
+inline bool Scene::Collision(Poly* pol, Circle* c)
+{
+    return Collision(c, pol);
+}
 
 // colisão entre geometria mista e uma forma qualquer
 inline bool Scene::Collision(Geometry* s, Mixed* m)
-{     return Collision(m, s); }
+{
+    return Collision(m, s);
+}
 
 // ---------------------------------------------------------------------------------
 

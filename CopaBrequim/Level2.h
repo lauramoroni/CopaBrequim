@@ -7,8 +7,8 @@
 #include "Game.h"
 #include "Sprite.h"
 #include "Scene.h"
-#include "Player1.h"
-#include "Player2.h"
+#include "MCQueen.h"
+#include "Hudson.h"
 
 // ------------------------------------------------------------------------------
 
@@ -18,8 +18,8 @@ private:
     Sprite* backg = nullptr;       // background
     Scene* scene = nullptr;        // gerenciador de cena
     bool viewBBox = false;         // habilita visualiza��o da bounding box
-    Player1* p1;                   // Mcqueen
-    Player2* p2;				   // Hudson
+    MCQueen* p1;                   // Mcqueen
+    Hudson* p2;				   // Hudson
     bool ctrlKeyB = false;         // controle da tecla B
 
 public:

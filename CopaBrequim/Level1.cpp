@@ -3,8 +3,8 @@
 #include "Home.h"
 #include "Level1.h"
 #include "Level2.h"
-#include "Player1.h"
-#include "Player2.h"
+#include "MCQueen.h"
+#include "Hudson.h"
 
 // ------------------------------------------------------------------------------
 
@@ -16,46 +16,19 @@ void Level1::Init()
     // cria background
     backg = new Sprite("Resources/Background/Level1.png"); // TO-DO: acrescentar imagem correta do level1
 
-    // sprites de movimentao do mcqueen
-    Player1::PlayerSpritesPath sprites1 = {
-        "Resources/mcqueen/mcqueen_up.png",
-		    "Resources/mcqueen/mcqueen_down.png",
-		    "Resources/mcqueen/mcqueen_left.png",
-		    "Resources/mcqueen/mcqueen_right.png",
-
-        "Resources/mcqueen/mcqueen_upRight.png",
-		    "Resources/mcqueen/mcqueen_upLeft.png",
-		    "Resources/mcqueen/mcqueen_downRight.png",
-		    "Resources/mcqueen/mcqueen_downLeft.png"
-    };
-
     // cria player 1
     // adicionar player 1 na cena
-    p1 = new Player1(sprites1, true);
-    scene->Add(p1, MOVING);
-
-    // sprites de movimentao do hudson
-    Player2::PlayerSpritesPath sprites2 = {
-        "Resources/hudson/hudson_up.png",
-        "Resources/hudson/hudson_down.png",
-        "Resources/hudson/hudson_left.png",
-        "Resources/hudson/hudson_right.png",
-
-        "Resources/hudson/hudson_upRight.png",
-        "Resources/hudson/hudson_upLeft.png",
-        "Resources/hudson/hudson_downRight.png",
-        "Resources/hudson/hudson_downLeft.png"
-    };
+    mcQueen = new MCQueen(VK_UP, VK_RIGHT, VK_DOWN, VK_LEFT, 'R');
+    scene->Add(mcQueen, MOVING);
 
     // cria player 2
     // adicionar player 2 na cena
-    p2 = new Player2(sprites2, false);
-	  scene->Add(p2, MOVING);
+	hudson = new Hudson('W', 'D', 'S', 'A', 'L');
+	scene->Add(hudson, MOVING);
 
     // cria bola
     // adiciona bola na cena
-    Sprite* ballSprite = new Sprite("Resources/football.png");
-    scene->Add(new Ball(ballSprite), MOVING);
+    scene->Add(new Ball(), MOVING);
   
 }
 
@@ -107,10 +80,10 @@ void Level1::Draw()
     scene->Draw();
 
     // desenha players
-    p1->Draw();
-    p2->Draw();
+    mcQueen->Draw();
+    //p2->Draw();
      
-	  // desenha bola
+	// desenha bola
 
     // desenha bounding box dos objetos
     if (viewBBox)

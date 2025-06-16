@@ -1,39 +1,49 @@
 /**********************************************************************************
 // Ball (Arquivo de Cabeçalho)
 //
-// Criação:     12 Jun 2025
-// Atualização: 13 Jun 2025
+// Atualização: 16 Jun 2025
 // Compilador:  Visual C++ 2022
 //
-// Descrição:  Bola do jogo Copa Brequim
+// Descrição:   Bola
 //
-/**********************************************************************************/
+**********************************************************************************/
 
-#ifndef BALL_H
-#define BALL_H
+#ifndef _BALL_H_
+#define _BALL_H_
 
-#include "Types.h"                      // tipos específicos da engine
-#include "Object.h"                     // interface de Object
-#include "Sprite.h"                     // interface de Sprites
+// ---------------------------------------------------------------------------------
+// Inclusões
+
+#include "Types.h"                          // tipos específicos da engine
+#include "Object.h"                         // interface de um objeto
+#include "Animation.h"                      // desenha animação
+#include "Vector.h"                         // representação de vetores
+
+// ---------------------------------------------------------------------------------
 
 class Ball : public Object
 {
 private:
-	Sprite* sprite;
+    Sprite* ballSprite;
 
 public:
-	float velX;
-	float velY;
+    Vector speed;                           // velocidade da rocha
+    Ball();                                 // construtor
+    ~Ball();                                // destrutor
 
-	Ball(Sprite* sprite);
-	~Ball();
-
-	void OnCollision(Object* obj);
-	void Update();
-	void Draw();
+    void OnCollision(Object* obj);         // resolução da colisão
+    void Update();                          // atualização 
+    void Draw();                            // desenho
 };
 
+// ---------------------------------------------------------------------------------
+// Função Membro Inline
 
 inline void Ball::Draw()
-{ sprite->Draw(x, y, z); }
+{
+    ballSprite->Draw(x, y, Layer::MIDDLE, scale, rotation);
+}
+
+// ---------------------------------------------------------------------------------
+
 #endif
