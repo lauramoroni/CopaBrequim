@@ -1,11 +1,11 @@
 /**********************************************************************************
-// Ball (Arquivo de Cabeçalho)
+// Ball (Arquivo de Cabeï¿½alho)
 //
-// Criação:     13 Jun 2025
-// Atualização: 13 Jun 2025
+// Criaï¿½ï¿½o:     13 Jun 2025
+// Atualizaï¿½ï¿½o: 13 Jun 2025
 // Compilador:  Visual C++ 2022
 //
-// Descrição:   Bola do jogo Copa Brequim
+// Descriï¿½ï¿½o:   Bola do jogo Copa Brequim
 //
 **********************************************************************************/
 
@@ -14,55 +14,73 @@
 
 // ---------------------------------------------------------------------------------
 
-Ball::Ball(Sprite * ball) {
-	sprite = ball;
-	velX = 0;
-	velY = 0;
+Ball::Ball() {
+	// cria sprite da bola
+	ballSprite = new Sprite("Resources/football.png");
+	
+	// AproximaÃ§Ã£o hexagonal para o BBox
+	Point ballVertex[10] = {
+		Point(32.0f,  0.0f),    // Vï¿½rtice 1 (direita)
+		Point(25.9f,  18.8f),   // Vï¿½rtice 2
+		Point(9.9f,   30.4f),   // Vï¿½rtice 3
+		Point(-9.9f,  30.4f),   // Vï¿½rtice 4
+		Point(-25.9f, 18.8f),   // Vï¿½rtice 5
+		Point(-32.0f, 0.0f),    // Vï¿½rtice 6 (esquerda)
+		Point(-25.9f, -18.8f),  // Vï¿½rtice 7
+		Point(-9.9f,  -30.4f),  // Vï¿½rtice 8
+		Point(9.9f,   -30.4f),  // Vï¿½rtice 9
+		Point(25.9f,  -18.8f)   // Vï¿½rtice 10
+	};
 
-	BBox(new Circle(30));
+	// Cria a bounding box poligonal com os 10 vï¿½rtices do decï¿½gono
+	BBox(new Poly(ballVertex, 10));
 
+	// posiÃ§Ã£o inicial no centro
 	MoveTo(window->CenterX(), window->CenterY());
+
+	// velocidade inicial
+	speed.ScaleTo(0.0f);
+
+	// tipo do objeto
+	type = BALL;
+
 }
 
 // ---------------------------------------------------------------------------------
 
 Ball::~Ball() {
-
+	delete ballSprite;
 }
 
 // ---------------------------------------------------------------------------------
 
-void Ball::Update() { // placeholders de movimento da bola para testes
-	if (window->KeyDown('I')) {
-		velX = 0;
-		velY = -600.0f;
-		Translate(velX * gameTime, velY * gameTime);
-	}
-	else if (window->KeyDown('K')) {
-		velX = 0;
-		velY = 600.0f;
-		Translate(velX * gameTime, velY * gameTime);
-	}
-	else if (window->KeyDown('J')) {
-		velX = -600.0f;
-		velY = 0;
-		Translate(velX * gameTime, velY * gameTime);
-	}
-	else if (window->KeyDown('L')) {
-		velX = 600.0f;
-		velY = 0;
-		Translate(velX * gameTime, velY * gameTime);
-	} else {
-		velX = 0;
-		velY = 0;
-	}
+void Ball::Update() {
+	// friction factor
+	float friction_factor = 1 - gameTime;
+	speed.Scale(friction_factor);
 
+	// desloca a bola
+	Translate(speed.XComponent() * gameTime, -speed.YComponent() * gameTime);
+
+	// verifica se a bola saiu da tela
+	if (x < -20 || x > window->Width() + 20 || y < -20 || y > window->Height() + 20) {
+		// reposiciona a bola no centro
+		MoveTo(window->CenterX(), window->CenterY());
+		speed.ScaleTo(0.0f); // zera a velocidade
+	}
 }
 
 // ---------------------------------------------------------------------------------
 
-void Ball::OnCollision(Object* obj) {
-
+void Ball::Reset() {
+	// reinicia a bola
+	started = false;
+	speed.ScaleTo(0.0f);
+	MoveTo(window->CenterX(), window->CenterY());
 }
+
+// ---------------------------------------------------------------------------------
+
+void Ball::OnCollision(Object* obj) {}
 
 // ---------------------------------------------------------------------------------

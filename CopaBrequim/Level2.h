@@ -1,5 +1,5 @@
-﻿#ifndef _COPABREQUIM_LEVEl2_H_
-#define _COPABREQUIM_LEVEL2_H_
+﻿#ifndef _COPABREQUIM_LEVEl1_H_
+#define _COPABREQUIM_LEVEL1_H_
 
 // ------------------------------------------------------------------------------
 // Inclus�es
@@ -7,9 +7,10 @@
 #include "Game.h"
 #include "Sprite.h"
 #include "Scene.h"
-#include "Player1.h"
-#include "Player2.h"
-
+#include "MCQueen.h"
+#include "Hudson.h"
+#include "Ball.h"
+#include "Score.h"
 // ------------------------------------------------------------------------------
 
 class Level2 : public Game
@@ -17,8 +18,8 @@ class Level2 : public Game
 private:
     Sprite* backg = nullptr;       // background
     Scene* scene = nullptr;        // gerenciador de cena
-    Player1* p1;                   // Mcqueen
-    Player2* p2;				    // Hudson
+    MCQueen* mcQueen;              // Mcqueen
+    Hudson* hudson;				   // Hudson
     Ball* ball;
     Score* score;
 
@@ -26,7 +27,8 @@ private:
     gameState currentGameState;
 
     bool viewBBox = false;         // habilita visualizacao da bounding box
-    bool ctrlKeyB = false;          // controle da tecla B
+    bool ctrlKeyB = false;         // controle da tecla B
+
 
 public:
     void Init();                    // inicializa jogo

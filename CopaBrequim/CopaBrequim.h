@@ -23,7 +23,7 @@
 
 // ------------------------------------------------------------------------------
 
-enum CopaBrequimObjects { PLAYER, BALL, STATIC_BARRIERS, MOVING_BARRIERS }; 
+enum CopaBrequimObjects { CAR, BALL, STATIC_BARRIERS, MOVING_BARRIERS }; 
 	// static barriers = obstaculos estaticos, como paredes, trave, pilastres etc  
 	// moving barriers = obstaculos em movimentos, como um carro ou uma barra se movimentando na tela pra atrapalhar os players
 

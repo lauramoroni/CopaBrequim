@@ -2,7 +2,7 @@
 // Object (Arquivo de Cabeçalho)
 //
 // Criação:     01 Out 2007
-// Atualização: 28 Fev 2023
+// Atualização: 13 Set 2023
 // Compilador:  Visual C++ 2022
 //
 // Descrição:   Essa é a classe base para todos objetos do jogo.
@@ -29,16 +29,24 @@ class Object
 {
 private:
     float posX, posY, posZ;     // coordenadas do objeto
+    float scaleFactor;          // escala do objeto
+    float rotationAngle;        // rotação do objeto
     Geometry* bbox;             // bounding box do objeto
 
 protected:
-    static Window* & window;    // janela do jogo
-    static Game* & game;        // jogo em que o objeto está inserido
-    static float & gameTime;    // tempo do último quadro
+    static Window*& window;    // janela do jogo
+    static Game*& game;        // jogo em que o objeto está inserido
+    static float& gameTime;    // tempo do último quadro
 
-    const float & x = posX;     // coordenada x do objeto
-    const float & y = posY;     // coordenada y do objeto
-    const float & z = posZ;     // coordenada z do objeto
+    const float& x = posX;     // coordenada x do objeto
+    const float& y = posY;     // coordenada y do objeto
+    const float& z = posZ;     // coordenada z do objeto
+
+    // valor da escala do objeto
+    const float& scale = scaleFactor;
+
+    // valor da rotação do objeto
+    const float& rotation = rotationAngle;
 
     uint type;                  // tipo do objeto
 
@@ -62,6 +70,12 @@ public:
     // retorna coordenada z do objeto
     virtual float Z() const;
 
+    // retorna escala do objeto
+    virtual float Scale() const;
+
+    // retorna rotação do objeto
+    virtual float Rotation() const;
+
     // retorna tipo do objeto
     virtual uint Type() const;
 
@@ -73,6 +87,18 @@ public:
 
     // move o objeto por (deltaX, deltaY, deltaZ)
     virtual void Translate(float dx, float dy, float dz = 0.0f);
+
+    // amplia/reduz objeto pelo fator de escala 
+    virtual void Scale(float factor);
+
+    // ajusta escala para o valor informado
+    virtual void ScaleTo(float value);
+
+    // rotaciona geometria por um ângulo
+    virtual void Rotate(float angle);
+
+    // ajusta a rotação para o valor informado
+    virtual void RotateTo(float value);
 
     // move o objeto para as coordenadas (x,y,z) indicadas
     virtual void MoveTo(float px, float py, float pz);
@@ -101,23 +127,43 @@ public:
 
 // retorna coordenada x do objeto
 inline float Object::X() const
-{ return posX; }
+{
+    return posX;
+}
 
 // retorna coordenada y do objeto
 inline float Object::Y() const
-{ return posY; }
+{
+    return posY;
+}
 
 // retorna coordenada z do objeto
 inline float Object::Z() const
-{ return posZ; }
+{
+    return posZ;
+}
+
+inline float Object::Scale() const
+{
+    return scaleFactor;
+}
+
+inline float Object::Rotation() const
+{
+    return rotationAngle;
+}
 
 // retorna tipo do objeto
 inline uint Object::Type() const
-{ return type; }
+{
+    return type;
+}
 
 // retorna a bounding box do objeto
 inline Geometry* Object::BBox() const
-{ return bbox; }
+{
+    return bbox;
+}
 
 // -----------------------------------------------------------------------------
 
