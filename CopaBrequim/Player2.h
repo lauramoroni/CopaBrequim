@@ -48,6 +48,7 @@ private:
     float velX = 0;
     float velY = 0;
     bool isPlayer1;
+    bool started = false;                 // indica se o jogador já começou a partida
 
     uint currState = STOPPED;            // estado atual do jogador
 
@@ -73,6 +74,8 @@ public:
     void Down();                        // muda direção para baixo
     void Left();                        // muda direção para esquerda
     void Right();                       // muda direção para direita
+    void Start();                       // libera movimentação do jogador
+    void Reset();                       // volta às posições iniciais, esperando o start
 
     void OnCollision(Object* obj);     // resolução da colisão
 
