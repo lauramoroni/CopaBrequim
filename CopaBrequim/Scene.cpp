@@ -1,8 +1,8 @@
 /**********************************************************************************
 // Scene (Código Fonte)
-// 
+//
 // Criação:     16 Mar 2012
-// Atualização: 28 Fev 2023
+// Atualização: 28 Set 2023
 // Compilador:  Visual C++ 2022
 //
 // Descrição:   Define uma classe para gerenciar o cenário do jogo.
@@ -14,9 +14,9 @@
 //
 **********************************************************************************/
 
+#include "Engine.h"
 #include "Scene.h"
 #include "Object.h"
-#include "Engine.h"
 
 // ---------------------------------------------------------------------------------
 
@@ -95,13 +95,13 @@ uint Scene::Size()
 
 // ---------------------------------------------------------------------------------
 
-void Scene::ClearDeleted()
+void Scene::ProcessDeleted()
 {
     // remove objetos duplicados
     toDelete.sort();
     toDelete.unique();
 
-    for (const auto & [obj, type] : toDelete)
+    for (const auto& [obj, type] : toDelete)
     {
         // libera memória ocupada pelo objeto
         delete obj;
@@ -131,7 +131,7 @@ void Scene::Update()
     for (it = moving.begin(); it != moving.end(); ++it)
         (*it)->Update();
 
-    ClearDeleted();
+    ProcessDeleted();
 }
 
 // ---------------------------------------------------------------------------------
@@ -160,14 +160,22 @@ void Scene::DrawBBox()
     for (const auto& obj : statics)
     {
         if (obj->BBox())
+        {
             Engine::renderer->Draw(obj->BBox(), 0xffff00ff);
+            if (obj->BBox()->Type() == POLYGON_T)
+                Engine::renderer->Draw(((Poly*)obj->BBox())->BBox(), 0x7fff00ff);
+        }
     }
 
     // desenha bounding box dos objetos em movimento
     for (const auto& obj : moving)
     {
         if (obj->BBox())
+        {
             Engine::renderer->Draw(obj->BBox(), 0xffff00ff);
+            if (obj->BBox()->Type() == POLYGON_T)
+                Engine::renderer->Draw(((Poly*)obj->BBox())->BBox(), 0x7fff00ff);
+        }
     }
 
     // finaliza desenho de pixels
@@ -186,7 +194,7 @@ void Scene::Begin()
 
 // ---------------------------------------------------------------------------------
 
-Object * Scene::Next()
+Object* Scene::Next()
 {
     // se apontador aponta para objeto válido
     if (its != statics.end())
@@ -222,7 +230,7 @@ bool Scene::Collision(Point* p, Point* q)
 
 // --------------------------------------------------------------------------------
 
-bool Scene::Collision(Point * p, Rect * r)
+bool Scene::Collision(Point* p, Rect* r)
 {
     // se as coordenadas  do ponto estão dentro do retângulo
     if (p->X() >= r->Left() && p->X() <= r->Right())
@@ -235,11 +243,11 @@ bool Scene::Collision(Point * p, Rect * r)
 
 // --------------------------------------------------------------------------------
 
-bool Scene::Collision(Point * p, Circle * c)
+bool Scene::Collision(Point* p, Circle* c)
 {
     // se a distância entre o ponto e o centro do círculo
     // for menor que o raio do círculo então há colisão
-    if (p->Distance(Point(c->CenterX(), c->CenterY())) <= c->radius)
+    if (Point::Distance(*p, Point(c->CenterX(), c->CenterY())) <= c->Radius())
         return true;
     else
         return false;
@@ -247,7 +255,60 @@ bool Scene::Collision(Point * p, Circle * c)
 
 // --------------------------------------------------------------------------------
 
-bool Scene::Collision(Rect * ra, Rect * rb)
+bool Scene::Collision(Point* p, Poly* pol)
+{
+    // se o ponto colidir com a bounding box do polígono,
+    // passe para uma investigação mais profunda e lenta
+    // caso contrário não há colisão
+
+    if (Collision(p, pol->BBox()))
+    {
+        bool crossings = false;
+        int nvertex = pol->vertexCount;
+        Point* vertex = pol->vertexList;
+
+        float Ix, Iy, Jx, Jy;
+        float Ixr, Iyr, Jxr, Jyr;
+        float Ixs, Iys, Jxs, Jys;
+        const double PIunder180 = 0.0174532925194444;
+
+        // converte ângulo de rotação para radianos
+        float theta = float(pol->Rotation() * PIunder180);
+
+        for (int i = 0, j = nvertex - 1; i < nvertex; j = i++)
+        {
+            // aplica rotação aos pontos
+            Ixr = float(vertex[i].X() * cos(theta) - vertex[i].Y() * sin(theta));
+            Iyr = float(vertex[i].X() * sin(theta) + vertex[i].Y() * cos(theta));
+            Jxr = float(vertex[j].X() * cos(theta) - vertex[j].Y() * sin(theta));
+            Jyr = float(vertex[j].X() * sin(theta) + vertex[j].Y() * cos(theta));
+
+            // aplica escala aos pontos
+            Ixs = Ixr * pol->Scale();
+            Iys = Iyr * pol->Scale();
+            Jxs = Jxr * pol->Scale();
+            Jys = Jyr * pol->Scale();
+
+            // transforma coordenadas locais em globais
+            Ix = pol->X() + Ixs;
+            Iy = pol->Y() + Iys;
+            Jx = pol->X() + Jxs;
+            Jy = pol->Y() + Jys;
+
+            if (((Iy < p->Y()) && (Jy >= p->Y())) || ((Jy < p->Y()) && (Iy >= p->Y())))
+                if (Jx - (((Jy - p->Y()) * (Jx - Ix)) / (Jy - Iy)) < p->X())
+                    crossings = !crossings;
+        }
+
+        return crossings;
+    }
+
+    return false;
+}
+
+// --------------------------------------------------------------------------------
+
+bool Scene::Collision(Rect* ra, Rect* rb)
 {
     // verificando sobreposição no eixo x
     bool overlapX = (rb->Left() <= ra->Right() && ra->Left() <= rb->Right());
@@ -261,7 +322,7 @@ bool Scene::Collision(Rect * ra, Rect * rb)
 
 // --------------------------------------------------------------------------------
 
-bool Scene::Collision(Rect * r, Circle * c)
+bool Scene::Collision(Rect* r, Circle* c)
 {
     // encontra o ponto do retângulo mais próximo do centro do círculo
     float px, py;
@@ -291,7 +352,68 @@ bool Scene::Collision(Rect * r, Circle * c)
 
 // --------------------------------------------------------------------------------
 
-bool Scene::Collision(Circle * ca, Circle * cb)
+bool Scene::Collision(Rect* r, Poly* pol)
+{
+    // se o retângulo colidir com a bounding box do polígono,
+    // passe para uma investigação mais profunda e lenta
+    // caso contrário não há colisão
+
+    if (Collision(r, pol->BBox()))
+    {
+        // recupera os cantos do retângulo
+        Point corners[4] =
+        {
+            Point(r->Left(), r->Top()),
+            Point(r->Right(), r->Top()),
+            Point(r->Right(), r->Bottom()),
+            Point(r->Left(), r->Bottom())
+        };
+
+        // verifica se algum canto do retângulo está dentro do polígono
+        for (int i = 0; i < 4; ++i)
+            if (Collision(&corners[i], pol))
+                return true;
+
+        // recupera vértices do polígono
+        int nv = pol->vertexCount;
+        Point* v = pol->vertexList;
+
+        // converte ângulo de rotação para radianos
+        const double PIunder180 = 0.0174532925194444;
+        float theta = float(pol->Rotation() * PIunder180);
+
+        // verifica se algum vértice está dentro do retângulo
+        float pX, pY;
+        float pXr, pYr;
+        float pXs, pYs;
+
+        for (int i = 0; i < nv; ++i)
+        {
+            // aplica rotação aos pontos
+            pXr = float(v[i].X() * cos(theta) - v[i].Y() * sin(theta));
+            pYr = float(v[i].X() * sin(theta) + v[i].Y() * cos(theta));
+
+            // aplica escala aos pontos
+            pXs = pXr * pol->Scale();
+            pYs = pYr * pol->Scale();
+
+            // transforma coordenadas locais em globais
+            pX = pol->X() + pXs;
+            pY = pol->Y() + pYs;
+
+            Point p(pX, pY);
+
+            if (Collision(&p, r))
+                return true;
+        }
+    }
+
+    return false;
+}
+
+// --------------------------------------------------------------------------------
+
+bool Scene::Collision(Circle* ca, Circle* cb)
 {
     // deltas podem ser negativos se a subtração é feita na ordem errada
     // levando essa possibilidade em conta é melhor pegar os valores absolutos
@@ -303,7 +425,7 @@ bool Scene::Collision(Circle * ca, Circle * cb)
 
     // se a distância é menor que a soma dos raios
     // existe colisão entre os círculos
-    if (distance <= (ca->radius + cb->radius))
+    if (distance <= (ca->Radius() + cb->Radius()))
         return true;
 
     // nenhum colisão detectada
@@ -312,7 +434,134 @@ bool Scene::Collision(Circle * ca, Circle * cb)
 
 // --------------------------------------------------------------------------------
 
-bool Scene::Collision(Mixed * m, Geometry * s)
+bool Scene::Collision(Circle* c, Poly* pol)
+{
+    // se o círculo colidir com a bounding box do polígono,
+    // passe para uma investigação mais profunda e lenta
+    // caso contrário não há colisão
+
+    if (Collision(c, pol->BBox()))
+    {
+        // recupera vértices do polígono
+        int nv = pol->vertexCount;
+        Point* v = pol->vertexList;
+
+        // TODO: identificar o ponto do círculo mais próximo de cada aresta 
+        // e verificar se este ponto está dentro do polígono
+
+        // converte ângulo de rotação para radianos
+        const double PIunder180 = 0.0174532925194444;
+        float theta = float(pol->Rotation() * PIunder180);
+
+        // verifica se algum vértice está dentro do círculo
+        float pX, pY;
+        float pXr, pYr;
+        float pXs, pYs;
+
+        for (int i = 0; i < nv; ++i)
+        {
+            // aplica rotação aos pontos
+            pXr = float(v[i].X() * cos(theta) - v[i].Y() * sin(theta));
+            pYr = float(v[i].X() * sin(theta) + v[i].Y() * cos(theta));
+
+            // aplica escala aos pontos
+            pXs = pXr * pol->Scale();
+            pYs = pYr * pol->Scale();
+
+            // transforma coordenadas locais em globais
+            pX = pol->X() + pXs;
+            pY = pol->Y() + pYs;
+
+            Point p(pX, pY);
+
+            if (Collision(&p, c))
+                return true;
+        }
+    }
+
+    return false;
+
+}
+
+// --------------------------------------------------------------------------------
+
+bool Scene::Collision(Poly* pa, Poly* pb)
+{
+    // se as bounding boxes estiverem colidindo, 
+    // passe para uma investigação mais profunda e lenta
+    // caso contrário não há colisão
+
+    if (Collision(pa->BBox(), pb->BBox()))
+    {
+        // recupera vértices do polígono A
+        int nva = pa->vertexCount;
+        Point* va = pa->vertexList;
+
+        float pX, pY;
+        float pXr, pYr;
+        float pXs, pYs;
+        float theta;
+
+        // converte ângulo de rotação para radianos
+        const double PIunder180 = 0.0174532925194444;
+        theta = float(pa->Rotation() * PIunder180);
+
+        // verifica se vértices de A estão dentro do polígono B
+        for (int i = 0; i < nva; ++i)
+        {
+            // aplica rotação aos pontos
+            pXr = float(va[i].X() * cos(theta) - va[i].Y() * sin(theta));
+            pYr = float(va[i].X() * sin(theta) + va[i].Y() * cos(theta));
+
+            // aplica escala aos pontos
+            pXs = pXr * pa->Scale();
+            pYs = pYr * pa->Scale();
+
+            // transforma coordenadas locais em globais
+            pX = pa->X() + pXs;
+            pY = pa->Y() + pYs;
+
+            Point p(pX, pY);
+
+            if (Collision(&p, pb))
+                return true;
+        }
+
+        // recupera vértices do polígono B
+        int nvb = pb->vertexCount;
+        Point* vb = pb->vertexList;
+
+        // converte ângulo de rotação para radianos
+        theta = float(pb->Rotation() * PIunder180);
+
+        // verifica se vértices de B estão dentro do polígono A
+        for (int i = 0; i < nvb; ++i)
+        {
+            // aplica rotação aos pontos
+            pXr = float(vb[i].X() * cos(theta) - vb[i].Y() * sin(theta));
+            pYr = float(vb[i].X() * sin(theta) + vb[i].Y() * cos(theta));
+
+            // aplica escala aos pontos
+            pXs = pXr * pb->Scale();
+            pYs = pYr * pb->Scale();
+
+            // transforma coordenadas locais em globais
+            pX = pb->X() + pXs;
+            pY = pb->Y() + pYs;
+
+            Point p(pX, pY);
+
+            if (Collision(&p, pa))
+                return true;
+        }
+    }
+
+    return false;
+}
+
+// --------------------------------------------------------------------------------
+
+bool Scene::Collision(Mixed* m, Geometry* s)
 {
     bool collision = false;
 
@@ -329,8 +578,9 @@ bool Scene::Collision(Mixed * m, Geometry * s)
             {
             case POINT_T:     collision = Collision((Point*)(*i), (Point*)s); break;
             case CIRCLE_T:    collision = Collision((Point*)(*i), (Circle*)s); break;
-            case RECTANGLE_T: collision = Collision((Point*)(*i), (Rect*)s);    break;
-            case MIXED_T:     collision = Collision((Point*)(*i), (Mixed*)s);    break;
+            case RECTANGLE_T: collision = Collision((Point*)(*i), (Rect*)s); break;
+            case POLYGON_T:   collision = Collision((Point*)(*i), (Poly*)s); break;
+            case MIXED_T:     collision = Collision((Point*)(*i), (Mixed*)s); break;
             }
             break;
 
@@ -340,8 +590,9 @@ bool Scene::Collision(Mixed * m, Geometry * s)
             {
             case POINT_T:     collision = Collision((Circle*)(*i), (Point*)s); break;
             case CIRCLE_T:    collision = Collision((Circle*)(*i), (Circle*)s); break;
-            case RECTANGLE_T: collision = Collision((Circle*)(*i), (Rect*)s);    break;
-            case MIXED_T:     collision = Collision((Circle*)(*i), (Mixed*)s);    break;
+            case RECTANGLE_T: collision = Collision((Circle*)(*i), (Rect*)s); break;
+            case POLYGON_T:   collision = Collision((Circle*)(*i), (Poly*)s); break;
+            case MIXED_T:     collision = Collision((Circle*)(*i), (Mixed*)s); break;
             }
             break;
 
@@ -351,8 +602,21 @@ bool Scene::Collision(Mixed * m, Geometry * s)
             {
             case POINT_T:     collision = Collision((Rect*)(*i), (Point*)s); break;
             case CIRCLE_T:    collision = Collision((Rect*)(*i), (Circle*)s); break;
-            case RECTANGLE_T: collision = Collision((Rect*)(*i), (Rect*)s);    break;
-            case MIXED_T:     collision = Collision((Rect*)(*i), (Mixed*)s);    break;
+            case RECTANGLE_T: collision = Collision((Rect*)(*i), (Rect*)s); break;
+            case POLYGON_T:   collision = Collision((Rect*)(*i), (Poly*)s); break;
+            case MIXED_T:     collision = Collision((Rect*)(*i), (Mixed*)s); break;
+            }
+            break;
+
+            // Polygon
+        case POLYGON_T:
+            switch (s->Type())
+            {
+            case POINT_T:     collision = Collision((Poly*)(*i), (Point*)s); break;
+            case CIRCLE_T:    collision = Collision((Poly*)(*i), (Circle*)s); break;
+            case RECTANGLE_T: collision = Collision((Poly*)(*i), (Rect*)s); break;
+            case POLYGON_T:   collision = Collision((Poly*)(*i), (Poly*)s); break;
+            case MIXED_T:     collision = Collision((Poly*)(*i), (Mixed*)s); break;
             }
             break;
 
@@ -396,6 +660,10 @@ bool Scene::Collision(Object* oa, Object* ob)
             // Point && Rectangle
             return Collision((Point*)oa->BBox(), (Rect*)ob->BBox());
 
+        case POLYGON_T:
+            // Point && Polygon
+            return Collision((Point*)oa->BBox(), (Poly*)ob->BBox());
+
         case MIXED_T:
             // Point && Mixed
             return Collision(oa->BBox(), (Mixed*)ob->BBox());
@@ -421,6 +689,10 @@ bool Scene::Collision(Object* oa, Object* ob)
         case RECTANGLE_T:
             // Circle && Rectangle
             return Collision((Circle*)oa->BBox(), (Rect*)ob->BBox());
+
+        case POLYGON_T:
+            // Circle && Polygon
+            return Collision((Circle*)oa->BBox(), (Poly*)ob->BBox());
 
         case MIXED_T:
             // Circle && Mixed
@@ -448,12 +720,46 @@ bool Scene::Collision(Object* oa, Object* ob)
             // Rectangle && Rectangle
             return Collision((Rect*)oa->BBox(), (Rect*)ob->BBox());
 
+        case POLYGON_T:
+            // Rectangle && Polygon
+            return Collision((Rect*)oa->BBox(), (Poly*)ob->BBox());
+
         case MIXED_T:
             // Rectangle && Mixed
             return Collision(oa->BBox(), (Mixed*)ob->BBox());
 
         default:
             // Rectangle && Unknown
+            return false;
+        }
+
+        // Polygon
+    case POLYGON_T:
+
+        switch (ob->BBox()->Type())
+        {
+        case POINT_T:
+            // Polygon && Point
+            return Collision((Poly*)oa->BBox(), (Point*)ob->BBox());
+
+        case CIRCLE_T:
+            // Polygon && Circle
+            return Collision((Poly*)oa->BBox(), (Circle*)ob->BBox());
+
+        case RECTANGLE_T:
+            // Polygon && Rectangle
+            return Collision((Poly*)oa->BBox(), (Rect*)ob->BBox());
+
+        case POLYGON_T:
+            // Polygon && Polygon
+            return Collision((Poly*)oa->BBox(), (Poly*)ob->BBox());
+
+        case MIXED_T:
+            // Polygon && Mixed
+            return Collision(oa->BBox(), (Mixed*)ob->BBox());
+
+        default:
+            // Polygon && Unknown
             return false;
         }
 
@@ -520,14 +826,14 @@ void Scene::CollisionDetection()
 
     if (!collisions.empty())
     {
-        for (auto [a,b] : collisions)
+        for (const auto& [a, b] : collisions)
         {
             a->OnCollision(b);
             b->OnCollision(a);
         }
     }
 
-    ClearDeleted();
+    ProcessDeleted();
 }
 
 // --------------------------------------------------------------------------------

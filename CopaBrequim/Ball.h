@@ -1,46 +1,54 @@
 /**********************************************************************************
-// Ball (Arquivo de Cabeçalho)
+// Ball (Arquivo de Cabeï¿½alho)
 //
-// Criação:     12 Jun 2025
-// Atualização: 13 Jun 2025
+// Atualizaï¿½ï¿½o: 16 Jun 2025
 // Compilador:  Visual C++ 2022
 //
-// Descrição:  Bola do jogo Copa Brequim
+// Descriï¿½ï¿½o:   Bola
 //
-/**********************************************************************************/
+**********************************************************************************/
 
-#ifndef BALL_H
-#define BALL_H
+#ifndef _BALL_H_
+#define _BALL_H_
 
-#include "Types.h"                      // tipos específicos da engine
-#include "Object.h"                     // interface de Object
-#include "Sprite.h"                     // interface de Sprites
+// ---------------------------------------------------------------------------------
+// Inclusï¿½es
+
+#include "Types.h"                          // tipos especï¿½ficos da engine
+#include "Object.h"                         // interface de um objeto
+#include "Animation.h"                      // desenha animaï¿½ï¿½o
+#include "Vector.h"                         // representaï¿½ï¿½o de vetores
+
+// ---------------------------------------------------------------------------------
 
 class Ball : public Object
 {
 private:
-	Sprite* sprite;
+    Sprite* ballSprite;
+	bool started = false;
 
 public:
-	float velX;
-	float velY;
+    Vector speed;                           // velocidade da rocha
+    Ball();                                 // construtor
+    ~Ball();                                // destrutor
 
-	Ball(Sprite* sprite);
-	~Ball();
+    void OnCollision(Object* obj);         // resoluï¿½ï¿½o da colisï¿½o
+    void Update();                          // atualizaï¿½ï¿½o 
+    void Draw();                            // desenho
 
-	void OnCollision(Object* obj);
-	void Update();
-	void Draw();
-	void Reset();
+	void Start() { started = true; }
+    void Reset();
+
 };
 
-inline void Ball::Reset() { // reset de posição da bola
-	velX = 0;
-	velY = 0;
-	MoveTo(window->CenterX(), window->CenterY(), 0);
-
-}
+// ---------------------------------------------------------------------------------
+// Funï¿½ï¿½o Membro Inline
 
 inline void Ball::Draw()
-{ sprite->Draw(x, y, z); }
+{
+    ballSprite->Draw(x, y, Layer::MIDDLE, scale, rotation);
+}
+
+// ---------------------------------------------------------------------------------
+
 #endif

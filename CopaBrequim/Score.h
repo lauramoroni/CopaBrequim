@@ -26,8 +26,8 @@ private:
 
 public:
 	
-	int p1_score;
-	int p2_score;						// pontuação dos jogadores
+	int mcQueen_score;
+	int hudson_score;						// pontuação dos jogadores
 	const int maxTime = 180;			// tempo máximo da partida em segundos
 	bool timerOn = false;				// verifica se o tempo está rodando
 	bool timeOver = false;				// verifica se acabou o tempo de partida
@@ -46,12 +46,12 @@ public:
 
 inline int Score::GetP1Score() const
 {
-	return p1_score;
+	return mcQueen_score;
 }
 
 inline int Score::GetP2Score() const
 {
-	return p2_score;
+	return hudson_score;
 }
 
 #endif

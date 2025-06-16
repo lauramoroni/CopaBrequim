@@ -1,8 +1,8 @@
 /**********************************************************************************
 // Timer (Código Fonte)
-// 
+//
 // Criação:     02 Abr 2011
-// Atualização: 10 Ago 2021
+// Atualização: 18 Out 2021
 // Compilador:  Visual C++ 2022
 //
 // Descrição:   Usa um contador de alta precisão para medir o tempo.
@@ -39,10 +39,10 @@ void Timer::Start()
         // ----|-----------------|----------------|----> time
         //    start              end              now 
         //
-        
+
         // tempo transcorrida antes da parada
         llong elapsed = end.QuadPart - start.QuadPart;
-        
+
         // retoma contagem do tempo
         //
         //      <--- elapsed --->
@@ -51,7 +51,7 @@ void Timer::Start()
         //                         
 
         // leva em conta tempo já transcorrido antes da parada
-        QueryPerformanceCounter(&start); 
+        QueryPerformanceCounter(&start);
         start.QuadPart -= elapsed;
 
         // retoma contagem normal
@@ -93,10 +93,10 @@ float Timer::Reset()
 
         // pega tempo transcorrido antes da parada
         elapsed = end.QuadPart - start.QuadPart;
-        
+
         // reinicia contagem do tempo
-        QueryPerformanceCounter(&start); 
-        
+        QueryPerformanceCounter(&start);
+
         // contagem reativada
         stoped = false;
     }
@@ -120,7 +120,7 @@ float Timer::Reset()
     }
 
     // converte tempo para segundos
-    return float(elapsed / double(freq.QuadPart));    
+    return float(elapsed / double(freq.QuadPart));
 }
 
 // ------------------------------------------------------------------------------
@@ -153,6 +153,38 @@ float Timer::Elapsed()
 
         // calcula tempo transcorrido (em ciclos)
         elapsed = end.QuadPart - start.QuadPart;
+    }
+
+    // converte tempo para segundos
+    return float(elapsed / double(freq.QuadPart));
+}
+// ------------------------------------------------------------------------------
+
+llong Timer::Stamp()
+{
+    QueryPerformanceCounter(&end);
+    return end.QuadPart;
+}
+
+// -------------------------------------------------------------------------------
+
+float Timer::Elapsed(llong stamp)
+{
+    llong elapsed;
+
+    if (stoped)
+    {
+        // pega tempo transcorrido até a pausa
+        elapsed = end.QuadPart - stamp;
+
+    }
+    else
+    {
+        // finaliza contagem do tempo
+        QueryPerformanceCounter(&end);
+
+        // calcula tempo transcorrido (em ciclos)
+        elapsed = end.QuadPart - stamp;
     }
 
     // converte tempo para segundos
