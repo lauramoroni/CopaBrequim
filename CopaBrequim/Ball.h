@@ -1,10 +1,10 @@
 /**********************************************************************************
-// Ball (Arquivo de Cabeçalho)
+// Ball (Arquivo de Cabeï¿½alho)
 //
-// Atualização: 16 Jun 2025
+// Atualizaï¿½ï¿½o: 16 Jun 2025
 // Compilador:  Visual C++ 2022
 //
-// Descrição:   Bola
+// Descriï¿½ï¿½o:   Bola
 //
 **********************************************************************************/
 
@@ -12,12 +12,12 @@
 #define _BALL_H_
 
 // ---------------------------------------------------------------------------------
-// Inclusões
+// Inclusï¿½es
 
-#include "Types.h"                          // tipos específicos da engine
+#include "Types.h"                          // tipos especï¿½ficos da engine
 #include "Object.h"                         // interface de um objeto
-#include "Animation.h"                      // desenha animação
-#include "Vector.h"                         // representação de vetores
+#include "Animation.h"                      // desenha animaï¿½ï¿½o
+#include "Vector.h"                         // representaï¿½ï¿½o de vetores
 
 // ---------------------------------------------------------------------------------
 
@@ -25,19 +25,24 @@ class Ball : public Object
 {
 private:
     Sprite* ballSprite;
+	bool started = false;
 
 public:
     Vector speed;                           // velocidade da rocha
     Ball();                                 // construtor
     ~Ball();                                // destrutor
 
-    void OnCollision(Object* obj);         // resolução da colisão
-    void Update();                          // atualização 
+    void OnCollision(Object* obj);         // resoluï¿½ï¿½o da colisï¿½o
+    void Update();                          // atualizaï¿½ï¿½o 
     void Draw();                            // desenho
+
+	void Start() { started = true; }
+    void Reset();
+
 };
 
 // ---------------------------------------------------------------------------------
-// Função Membro Inline
+// Funï¿½ï¿½o Membro Inline
 
 inline void Ball::Draw()
 {

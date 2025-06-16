@@ -33,6 +33,8 @@ private:
 
     char initial_side;                  // lado inicial  (L ou R)
 
+    bool started = false;
+
     // constantes de controle 
     const float ACCELERATION = 25.0f;
     const float YAW_RESISTANCE = 30.0f;
@@ -50,6 +52,9 @@ public:
     void Rotate(float angle);           // sobrescreve método de Object
     void Update();                      // atualização
     void Draw();                        // desenho
+
+    void Start();
+    void Reset();
 
     void OnCollision(Object* obj);      // resolução da colisão
 };

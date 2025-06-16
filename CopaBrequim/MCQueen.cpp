@@ -33,9 +33,9 @@ MCQueen::MCQueen(char up, char right, char down, char left, char init_side)
     // posição inicial 
     initial_side = toupper(init_side);
     if (initial_side == 'L')
-        MoveTo(window->CenterX() - 80, window->CenterY());
+        MoveTo(window->CenterX() - 250, window->CenterY());
     else if (initial_side == 'R')
-        MoveTo(window->CenterX() + 80, window->CenterY());
+        MoveTo(window->CenterX() + 250, window->CenterY());
 
     // escala e rotação 
     ScaleTo(1.5f);
@@ -71,6 +71,14 @@ MCQueen::MCQueen(char up, char right, char down, char left, char init_side)
 MCQueen::~MCQueen()
 {
     delete carSprite;
+}
+
+// ---------------------------------------------------------------------------------
+
+void MCQueen::Start()
+{
+	// inicia o carro
+	started = true;
 }
 
 // ---------------------------------------------------------------------------------
@@ -112,6 +120,10 @@ void MCQueen::Rotate(float angle)
 
 void MCQueen::Update()
 {
+    if (!started)
+		return;  // não atualiza se o carro não foi iniciado
+
+
     // deslocamento padrão
     float delta = 100 * gameTime;
 
@@ -217,7 +229,7 @@ void MCQueen::OnCollision(Object* obj) {
         float angleB = angleA + 180.0f;
 
         // vetor de impacto
-        Vector impactA{ angleA, 0.70f * speed.Magnitude() };
+        Vector impactA{ angleA, 0.40f * speed.Magnitude() };
         Vector impactB{ angleB, 0.0005f * ball->speed.Magnitude() };
 
         if (impactA.Magnitude() < ball->speed.Magnitude())
@@ -227,4 +239,27 @@ void MCQueen::OnCollision(Object* obj) {
         this->speed.Add(impactB);
         ball->speed.Add(impactA);
     }
+}
+
+// ----------------------------------------------------------------------------------
+
+void MCQueen::Reset()
+{
+    // reinicia o carro
+    started = false;
+
+    // inicializa direção e velocidade 
+    if (initial_side == 'L') {
+        RotateTo(90.0f);
+        direction.RotateTo(0.0f);  // esquerda
+        MoveTo(window->CenterX() - 250, window->CenterY());
+    }
+    else if (initial_side == 'R') {
+        RotateTo(270.0f);
+        direction.RotateTo(180.0f);    // direita
+        MoveTo(window->CenterX() + 250, window->CenterY());
+    }
+
+    direction.ScaleTo(10.0f);
+    speed.ScaleTo(0.0f);
 }

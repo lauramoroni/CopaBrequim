@@ -1,11 +1,11 @@
 /**********************************************************************************
-// Ball (Arquivo de Cabeçalho)
+// Ball (Arquivo de Cabeï¿½alho)
 //
-// Criação:     13 Jun 2025
-// Atualização: 13 Jun 2025
+// Criaï¿½ï¿½o:     13 Jun 2025
+// Atualizaï¿½ï¿½o: 13 Jun 2025
 // Compilador:  Visual C++ 2022
 //
-// Descrição:   Bola do jogo Copa Brequim
+// Descriï¿½ï¿½o:   Bola do jogo Copa Brequim
 //
 **********************************************************************************/
 
@@ -17,32 +17,26 @@
 Ball::Ball() {
 	// cria sprite da bola
 	ballSprite = new Sprite("Resources/football.png");
-
-	// cria bounding box redonda
-	//BBox(new Circle(32));
 	
-	// Aproximação hexagonal para o BBox
+	// AproximaÃ§Ã£o hexagonal para o BBox
 	Point ballVertex[10] = {
-		Point(32.0f,  0.0f),    // Vértice 1 (direita)
-		Point(25.9f,  18.8f),   // Vértice 2
-		Point(9.9f,   30.4f),   // Vértice 3
-		Point(-9.9f,  30.4f),   // Vértice 4
-		Point(-25.9f, 18.8f),   // Vértice 5
-		Point(-32.0f, 0.0f),    // Vértice 6 (esquerda)
-		Point(-25.9f, -18.8f),  // Vértice 7
-		Point(-9.9f,  -30.4f),  // Vértice 8
-		Point(9.9f,   -30.4f),  // Vértice 9
-		Point(25.9f,  -18.8f)   // Vértice 10
+		Point(32.0f,  0.0f),    // Vï¿½rtice 1 (direita)
+		Point(25.9f,  18.8f),   // Vï¿½rtice 2
+		Point(9.9f,   30.4f),   // Vï¿½rtice 3
+		Point(-9.9f,  30.4f),   // Vï¿½rtice 4
+		Point(-25.9f, 18.8f),   // Vï¿½rtice 5
+		Point(-32.0f, 0.0f),    // Vï¿½rtice 6 (esquerda)
+		Point(-25.9f, -18.8f),  // Vï¿½rtice 7
+		Point(-9.9f,  -30.4f),  // Vï¿½rtice 8
+		Point(9.9f,   -30.4f),  // Vï¿½rtice 9
+		Point(25.9f,  -18.8f)   // Vï¿½rtice 10
 	};
 
-	// Cria a bounding box poligonal com os 10 vértices do decágono
+	// Cria a bounding box poligonal com os 10 vï¿½rtices do decï¿½gono
 	BBox(new Poly(ballVertex, 10));
 
-
-		
-	// posição inicial no centro
+	// posiÃ§Ã£o inicial no centro
 	MoveTo(window->CenterX(), window->CenterY());
-	ScaleTo(0.6f);
 
 	// velocidade inicial
 	speed.ScaleTo(0.0f);
@@ -74,6 +68,15 @@ void Ball::Update() {
 		MoveTo(window->CenterX(), window->CenterY());
 		speed.ScaleTo(0.0f); // zera a velocidade
 	}
+}
+
+// ---------------------------------------------------------------------------------
+
+void Ball::Reset() {
+	// reinicia a bola
+	started = false;
+	speed.ScaleTo(0.0f);
+	MoveTo(window->CenterX(), window->CenterY());
 }
 
 // ---------------------------------------------------------------------------------

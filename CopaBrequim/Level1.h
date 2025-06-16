@@ -9,7 +9,8 @@
 #include "Scene.h"
 #include "MCQueen.h"
 #include "Hudson.h"
-
+#include "Ball.h"
+#include "Score.h"
 // ------------------------------------------------------------------------------
 
 class Level1 : public Game
@@ -17,9 +18,15 @@ class Level1 : public Game
 private:
     Sprite* backg = nullptr;       // background
     Scene* scene = nullptr;        // gerenciador de cena
-    bool viewBBox = false;         // habilita visualiza��o da bounding box
     MCQueen* mcQueen;              // Mcqueen
 	Hudson* hudson;				   // Hudson
+    Ball* ball;
+    Score* score;
+
+    enum gameState { PAUSED, RUNNING }; // necessário aos resets globais
+    gameState currentGameState;
+    
+    bool viewBBox = false;         // habilita visualizacao da bounding box
     bool ctrlKeyB = false;         // controle da tecla B
 
 
