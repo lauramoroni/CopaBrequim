@@ -28,11 +28,6 @@ void GameOver::Init()
 void GameOver::Update()
 {
 	if (window->KeyPress(VK_ESCAPE)) {
-		window->Close();
-		return;
-	}
-
-	if (window->KeyPress(VK_RETURN)) {
         Engine::Next<Home>();
 		return;
 	}
