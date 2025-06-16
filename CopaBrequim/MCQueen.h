@@ -34,7 +34,8 @@ private:
     char initial_side;                  // lado inicial  (L ou R)
 
     // constantes de controle 
-    const float ACCELERATION = 40.0f;
+    const float ACCELERATION = 25.0f;
+    const float YAW_RESISTANCE = 30.0f;
     const float SKIDDING_ANGLE = 45;
 public:
     Vector direction;                   // direção 

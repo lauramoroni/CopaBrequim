@@ -22,10 +22,10 @@ MCQueen::MCQueen(char up, char right, char down, char left, char init_side)
 
     // cria bounding box
     Point carVertex[4] = {
-        Point(-16.0f, -20.0f),  // ponto superior esquerdo
-        Point(16.0f, -20.0f),  // ponto superior direito
-        Point(16.0f,  20.0f),  // ponto inferior direito
-        Point(-16.0f,  20.0f)   // ponto inferior esquerdo
+        Point(-16.0f, -25.0f),  // ponto superior esquerdo
+        Point(16.0f, -25.0f),  // ponto superior direito
+        Point(16.0f,  25.0f),  // ponto inferior direito
+        Point(-16.0f,  25.0f)   // ponto inferior esquerdo
     };
 
     BBox(new Poly(carVertex, 4));
@@ -87,10 +87,10 @@ void MCQueen::Forward()
 void MCQueen::Backward()
 {
     // impulsiona para trás
-    Vector thrust;
-    thrust.RotateTo(direction.Angle() < 180 ? direction.Angle() + 180.0f : direction.Angle() - 180.0f);
-    thrust.ScaleTo((ACCELERATION - 10.0f) * gameTime);
-    speed.Add(thrust);
+    Vector reverse_thrust;
+    reverse_thrust.RotateTo(direction.Angle() < 180 ? direction.Angle() + 180.0f : direction.Angle() - 180.0f);
+    reverse_thrust.ScaleTo(ACCELERATION * gameTime);
+    speed.Add(reverse_thrust);
 }
 
 // ---------------------------------------------------------------------------------
@@ -98,11 +98,14 @@ void MCQueen::Backward()
 void MCQueen::Rotate(float angle)
 {
     // ajusta a rotação para depender da velocidade
-    angle = angle * (speed.Magnitude() / (ACCELERATION - 10.0f));  // quanto maior o denominador da magnitude, menor a velocidade de rotação
+	angle = angle * (speed.Magnitude() / YAW_RESISTANCE);  // quanto maior o YAW_RESISTANCE, menor a velocidade de rotação
 
     // rotaciona objeto e vetor
     Object::Rotate(angle);
     direction.Rotate(angle);
+
+    if (!window->KeyDown('K')) // K é a tecla de drift
+	    speed.Rotate(angle);  // mantém a velocidade na direção atual
 }
 
 // -------------------------------------------------------------------------------
@@ -116,7 +119,7 @@ void MCQueen::Update()
     // - quanto mais perto de 1 maior a conservação da velocidade
     // - quanto maior a diferença entre a direção e a velocidade, maior a perda de velocidade (derrapagem)
     // fator_maximo - (diferença entre ângulos / angulo_de_derrapagem) * gameTime
-    float friction_factor = 0.9994f - (abs(speed.Angle() - direction.Angle()) / SKIDDING_ANGLE) * gameTime;
+    float friction_factor = 0.998f - (abs(speed.Angle() - direction.Angle()) / SKIDDING_ANGLE) * gameTime;
     speed.Scale(friction_factor);
 
     // rotaciona
@@ -194,9 +197,9 @@ void MCQueen::OnCollision(Object* obj) {
         if (angleB > 360)
             angleB -= 360.0f;
 
-        // vetores gerados no impacto (com 70% de perda)
-        Vector impactA{ angleA, 0.30f * carA->speed.Magnitude() };
-        Vector impactB{ angleB, 0.30f * carB->speed.Magnitude() };
+        // vetores gerados no impacto
+        Vector impactA{ angleA, 0.05f * carA->speed.Magnitude() };
+        Vector impactB{ angleB, 0.05f * carB->speed.Magnitude() };
 
         // adiciona vetor impacto à velocidade
         carA->speed.Add(impactB);
@@ -210,12 +213,18 @@ void MCQueen::OnCollision(Object* obj) {
         // ângulo formado pela linha que interliga os centros
         Point pA{ x, y };
         Point pB{ ball->X(), ball->Y() };
-        float angle = Line::Angle(pA, pB);
+        float angleA = Line::Angle(pA, pB);
+        float angleB = angleA + 180.0f;
 
         // vetor de impacto
-        Vector impact{ angle, 0.30f * speed.Magnitude() };
+        Vector impactA{ angleA, 0.70f * speed.Magnitude() };
+        Vector impactB{ angleB, 0.0005f * ball->speed.Magnitude() };
+
+        if (impactA.Magnitude() < ball->speed.Magnitude())
+            impactA.ScaleTo(ball->speed.Magnitude());
 
         // adiciona vetor impacto à velocidade da bola
-        ball->speed.Add(impact);
+        this->speed.Add(impactB);
+        ball->speed.Add(impactA);
     }
 }

@@ -140,6 +140,10 @@ public:
 
     // retorna o ângulo da linha formada pelos pontos
     static float Angle(const Point& pa, const Point& pb);
+	// retorna a distância entre os pontos
+    static float Distance(const Point& pa, const Point& pb) {
+		return sqrtf(powf(pb.X() - pa.X(), 2) + powf(pb.Y() - pa.Y(), 2));
+    }
 };
 
 // --------------------------------------------------------------------------
