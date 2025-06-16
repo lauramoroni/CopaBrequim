@@ -15,7 +15,7 @@ void Level1::Init()
     scene = new Scene();
 
     // cria background
-    backg = new Sprite("Resources/Background/Level1.png"); // TO-DO: acrescentar imagem correta do level1
+    backg = new Sprite("Resources/Background/level1.png");
 
     // sprites de movimentao do mcqueen
     Player1::PlayerSpritesPath sprites1 = {
@@ -84,8 +84,7 @@ void Level1::Update()
 
     if (window->KeyDown(VK_ESCAPE))
     {
-        // volta para a tela de abertura
-        Engine::Next<Home>();
+		Engine::Next<Home>();
     }
     else if (window->KeyDown('N'))
     {
@@ -104,6 +103,7 @@ void Level1::Update()
     }
 
 	// atualiza placar
+	//scoreboard->Update();
 }
 
 // ------------------------------------------------------------------------------
@@ -111,7 +111,6 @@ void Level1::Update()
 void Level1::Draw()
 {
     // desenha placar
-    //keyMap->Draw(window->CenterX(), window->Height() - 20.0f, Layer::FRONT);
     scoreboard->Draw();
 
     // desenha o background
@@ -124,18 +123,11 @@ void Level1::Draw()
     p1->Draw();
     p2->Draw();
      
-	  // desenha bola
+	// desenha bola
 
     // desenha bounding box dos objetos
     if (viewBBox)
         scene->DrawBBox();
-
-    // desenha texto
-    //Color gray{ 0.70f, 0.70f, 0.70f, 1.0f };
-
-    //font->Draw(window->CenterX(), window->Height() - 14.0f, "01:43", gray);
-    //font->Draw(window->CenterX() - 130.0f, window->Height() - 4.0f, " 1 ", gray);
-    //font->Draw(window->CenterX() + 130.0f, window->Height() - 4.0f, " 0 ", gray);
 }
 
 // ------------------------------------------------------------------------------
@@ -145,6 +137,7 @@ void Level1::Finalize()
     delete backg;
     delete scene;
     delete scoreboard;
+
 }
 
 // ------------------------------------------------------------------------------

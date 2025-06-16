@@ -20,7 +20,7 @@ private:
 	static Timer* timer;        // temporizador para anima����o
 
 public:
-    // tempo atual, atualizado nos niveis
+    float currentTime;
     void Init();                    // inicializa��o
     void Update();                  // atualiza��o
     void Draw();                    // desenho

@@ -5,7 +5,7 @@
 
 void Home::Init()
 {
-    backg = new Sprite("Resources/Background/tela-abertura.png");
+    backg = new Sprite("Resources/Background/tela-abertura2.png");
 
 }
 

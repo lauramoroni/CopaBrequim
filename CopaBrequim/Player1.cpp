@@ -29,7 +29,7 @@ Player1::Player1(const PlayerSpritesPath& sprites, bool isp1) {
     BBox(new Rect(-26, -20, 26, 20));
 
 
-    MoveTo(window->CenterX(), window->Height() - spriteU->Height());
+    MoveTo(spriteL->Width() + 150.f, window->CenterY());
 
     // type = PLAYER; onde ele define isso?
 
@@ -198,7 +198,7 @@ void Player1::OnCollision(Object* obj)
 void Player1::Draw() {
 
     switch (currState) {
-    case STOPPED: spriteU->Draw(x, y, Layer::UPPER); break;
+    case STOPPED: spriteR->Draw(x, y, Layer::UPPER); break;
 
     case UP: spriteU->Draw(x, y, Layer::UPPER); break;
     case DOWN: spriteD->Draw(x, y, Layer::UPPER); break;

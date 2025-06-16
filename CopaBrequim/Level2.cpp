@@ -15,7 +15,7 @@ void Level2::Init()
     scene = new Scene();
 
     // cria background
-    backg = new Sprite("Resources/Background/Level1.png"); // TO-DO: acrescentar imagem correta do level2
+    backg = new Sprite("Resources/Background/level2.png");
 
     // jogador
     // atribui personagens
@@ -87,7 +87,6 @@ void Level2::Update()
 
     if (window->KeyDown(VK_ESCAPE))
     {
-        // volta para a tela de abertura
         Engine::Next<Home>();
     }
     else if (window->KeyDown('R'))
@@ -111,20 +110,23 @@ void Level2::Update()
 void Level2::Draw()
 {
     // desenha placar
-	scoreboard->Draw();
+    scoreboard->Draw();
+
+    // desenha o background
+    backg->Draw(float(window->CenterX()), float(window->CenterY()), Layer::BACK);
 
     // desenha cena
-    backg->Draw(float(window->CenterX()), float(window->CenterY()), Layer::BACK);
     scene->Draw();
 
     // desenha players
+    p1->Draw();
+    p2->Draw();
 
     // desenha bola
 
     // desenha bounding box dos objetos
     if (viewBBox)
         scene->DrawBBox();
-
 }
 
 // ------------------------------------------------------------------------------
