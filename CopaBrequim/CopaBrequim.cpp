@@ -12,6 +12,15 @@
 #include "Engine.h"
 #include "Resources.h"
 #include "Home.h"
+#include "Font.h"
+#include "CopaBrequim.h"
+
+// ------------------------------------------------------------------------------
+
+Scene * CopaBrequim::scene = nullptr;         // cena do jogo
+Audio * CopaBrequim::audio = nullptr;         // sistema de áudio
+int CopaBrequim::mcQueenScore = 0;            // pontuação do McQueen
+int CopaBrequim::hudsonScore = 0;            // pontuação do Hudson
 
 // ------------------------------------------------------------------------------
 //                                  WinMain                                      
@@ -23,7 +32,7 @@ int APIENTRY WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 
     // configura o motor
     engine->window->Mode(WINDOWED);
-    engine->window->Size(1280, 800);
+    engine->window->Size(1024, 700);
     engine->window->Color(30, 50, 80);
     engine->window->Title("CopaBrequim");
     engine->window->Icon(IDI_ICON);

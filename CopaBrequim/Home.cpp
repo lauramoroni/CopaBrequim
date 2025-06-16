@@ -6,6 +6,7 @@
 void Home::Init()
 {
     backg = new Sprite("Resources/Background/tela-abertura.png");
+
 }
 
 void Home::Update()
@@ -30,6 +31,7 @@ void Home::Update()
 void Home::Draw()
 {
     backg->Draw(window->CenterX(), window->CenterY(), Layer::BACK);
+
 }
 
 void Home::Finalize()

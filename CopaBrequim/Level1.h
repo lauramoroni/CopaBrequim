@@ -26,9 +26,9 @@ private:
     enum gameState { PAUSED, RUNNING }; // necessário aos resets globais
     gameState currentGameState;
     
+    bool pressSpace = false;
     bool viewBBox = false;         // habilita visualizacao da bounding box
     bool ctrlKeyB = false;         // controle da tecla B
-
 
 public:
     void Init();                    // inicializa jogo

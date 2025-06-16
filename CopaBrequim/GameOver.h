@@ -2,24 +2,29 @@
 #define _COPABREQUIM_GAMEOVER_H_
 
 // ------------------------------------------------------------------------------
+// Inclus�es
 
 #include "Game.h"
 #include "Sprite.h"
+#include "Scene.h"
+#include "Font.h"
 
 // ------------------------------------------------------------------------------
 
 class GameOver : public Game
 {
 private:
-    Sprite* title = nullptr;       // tela de fim
+	Sprite* backg = nullptr;       // background
+    Scene* scene = nullptr;        // gerenciador de cena
+    Font* font = nullptr;
 
 public:
-    void Init();                    // inicializa��o do n�vel
-    void Update();                  // l�gica da tela de fim
-    void Draw();                    // desenho da tela
-    void Finalize();                // finaliza��o do n�vel
+	void Init(); // construtor com pontua����es
+    void Update();                  // atualiza l�gica do jogo
+    void Draw();                    // desenha jogo
+    void Finalize();                // finaliza jogo
 };
 
-// ------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 
 #endif

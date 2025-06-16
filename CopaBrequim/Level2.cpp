@@ -1,3 +1,6 @@
+#include "CopaBrequim.h"
+
+#include "GameOver.h"
 #include "Ball.h"
 #include "Engine.h"
 #include "Home.h"
@@ -47,7 +50,6 @@ void Level2::Update()
         viewBBox = !viewBBox;
         ctrlKeyB = false;
     }
-
     if (window->KeyUp('B'))
     {
         ctrlKeyB = true;
@@ -55,11 +57,14 @@ void Level2::Update()
 
     if (window->KeyDown(VK_ESCAPE))
     {
-        // volta para a tela de abertura
         Engine::Next<Home>();
         return;
     }
-
+    if (window->KeyDown('N'))
+    {
+        Engine::Next<Level2>();
+        return;
+    }
     if (window->KeyDown('R'))
     {
         // reinicia o level
@@ -75,10 +80,7 @@ void Level2::Update()
 
     if (ball->X() > window->Width()) // se a bola bate na esquerda da tela
     {
-        int scoreP1 = score->GetP1Score();
-        int scoreP2 = score->GetP2Score();
-        OutputDebugString("Gol do Hudson!");
-        score->mcQueen_score = scoreP1 + 1;
+        CopaBrequim::hudsonScore++;
         mcQueen->Reset();
         hudson->Reset();
         ball->Reset();
@@ -87,10 +89,7 @@ void Level2::Update()
     }
 
     if (ball->X() < 0) { // se a bola bate na direita da tela
-        int scoreP1 = score->GetP1Score();
-        int scoreP2 = score->GetP2Score();
-        OutputDebugString("Gol do McQueen!");
-        score->hudson_score = scoreP2 + 1;
+        CopaBrequim::mcQueenScore++;
         mcQueen->Reset();
         hudson->Reset();
         ball->Reset();
@@ -98,12 +97,10 @@ void Level2::Update()
         currentGameState = PAUSED;
     }
 
-    if (score->GetP1Score() == 5 || score->GetP2Score() == 5 || score->timeOver) { // condições de fim de partida
-        mcQueen->Reset();
-        hudson->Reset();
-        score->Reset();
-        ball->Reset();
-        currentGameState = PAUSED;
+    if (CopaBrequim::mcQueenScore == 5 || CopaBrequim::hudsonScore == 5 || score->timeOver) { // condiï¿½ï¿½es de fim de partida
+        Engine::Next<GameOver>();
+
+        return;
     }
 
     // atualiza cena
@@ -115,11 +112,11 @@ void Level2::Update()
 
 void Level2::Draw()
 {
-    // desenha o background
-    backg->Draw(float(window->CenterX()), float(window->CenterY()), Layer::BACK);
-
     // desenha placar
     score->Draw();
+
+    // desenha o background
+    backg->Draw(float(window->CenterX()), float(window->CenterY()), Layer::BACK);
 
     // desenha cena
     scene->Draw();
@@ -136,5 +133,3 @@ void Level2::Finalize()
     delete backg;
     delete scene;
 }
-
-// ------------------------------------------------------------------------------

@@ -108,6 +108,9 @@
     <ClCompile Include="Vector.cpp">
       <Filter>Engine\Arquivos de Origem</Filter>
     </ClCompile>
+    <ClCompile Include="Score.cpp">
+      <Filter>Game\Arquivos de Origem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resources.h">
@@ -193,6 +196,9 @@
     </ClInclude>
     <ClInclude Include="Vector.h">
       <Filter>Engine\Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="Score.h">
+      <Filter>Game\Arquivos de Cabeçalho</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

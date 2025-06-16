@@ -17,12 +17,39 @@
 #include "Game.h"
 #include "Audio.h"
 #include "Resources.h"
+#include "Sprite.h"
+#include "Scene.h"
+#include "Font.h"
+#include "Score.h"
 
 // ------------------------------------------------------------------------------
 
 enum CopaBrequimObjects { CAR, BALL, STATIC_BARRIERS, MOVING_BARRIERS }; 
 	// static barriers = obstaculos estaticos, como paredes, trave, pilastres etc  
 	// moving barriers = obstaculos em movimentos, como um carro ou uma barra se movimentando na tela pra atrapalhar os players
+
+// ------------------------------------------------------------------------------
+
+class CopaBrequim : public Game
+{
+private:
+	Sprite* backg = nullptr;       // pano de fundo
+	Sprite* keyMap = nullptr;      // caixa para placar
+	bool viewBBox = false;
+	Font* font = nullptr;
+
+public:
+	static Scene* scene;           // cena do jogo
+	static Audio* audio;           // sistema de áudio
+
+	static int mcQueenScore;
+	static int hudsonScore;
+
+	void Init();
+	void Update();
+	void Draw();
+	void Finalize();
+};
 
 // ------------------------------------------------------------------------------
 
