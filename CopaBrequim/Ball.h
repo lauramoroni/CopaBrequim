@@ -26,12 +26,13 @@ class Ball : public Object
 private:
     Sprite* ballSprite;
 	bool started = false;
+    Game* currentLevel = nullptr;
 
     const float MAXSPEED = 350.0f;
 
 public:
     Vector speed;                           // velocidade da rocha
-    Ball();                                 // construtor
+    Ball(Game * level);                                 // construtor
     ~Ball();                                // destrutor
 
     void OnCollision(Object* obj);         // resolu��o da colis�o
@@ -52,5 +53,4 @@ inline void Ball::Draw()
 }
 
 // ---------------------------------------------------------------------------------
-
 #endif

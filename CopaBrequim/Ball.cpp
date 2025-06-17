@@ -11,10 +11,13 @@
 
 #include "Ball.h"
 #include "CopaBrequim.h"
+#include "Goal.h"
 
 // ---------------------------------------------------------------------------------
 
-Ball::Ball() {
+Ball::Ball(Game * level) {
+	currentLevel = level;
+
 	// cria sprite da bola
 	ballSprite = new Sprite("Resources/sprites/football.png");
 	
@@ -84,6 +87,17 @@ void Ball::Reset() {
 
 // ---------------------------------------------------------------------------------
 
-void Ball::OnCollision(Object* obj) {}
+void Ball::OnCollision(Object* obj) {
+	if (obj->Type() == GOAL && currentLevel) {
+		Goal* goal = static_cast<Goal*>(obj);
+		if (goal->GetTeam() == LEFT) { // se o gol foi feito na esquerda
+			currentLevel->OnGoal(LEFT);
+		}
+		else { // se o gol foi na direita
+			currentLevel->OnGoal(RIGHT);
+		}
+
+	}
+}
 
 // ---------------------------------------------------------------------------------

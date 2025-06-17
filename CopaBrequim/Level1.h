@@ -11,6 +11,7 @@
 #include "Hudson.h"
 #include "Ball.h"
 #include "Score.h"
+#include "Goal.h"
 // ------------------------------------------------------------------------------
 
 class Level1 : public Game
@@ -22,6 +23,8 @@ private:
 	Hudson* hudson;				   // Hudson
     Ball* ball;
     Score* score;
+	Goal* goalLeft;                   // gol esquerda
+	Goal* goalRight;                  // gol direita
 
     enum gameState { PAUSED, RUNNING }; // necessário aos resets globais
     gameState currentGameState;
@@ -34,6 +37,7 @@ public:
     void Init();                    // inicializa jogo
     void Update();                  // atualiza l�gica do jogo
     void Draw();                    // desenha jogo
+    void OnGoal(uint goalSide) override;
     void Finalize();                // finaliza jogo
 };
 

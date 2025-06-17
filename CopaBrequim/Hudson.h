@@ -1,10 +1,10 @@
 /**********************************************************************************
-// Hudson (Arquivo de CabeÁalho)
+// Hudson (Arquivo de Cabe√ßalho)
 //
-// CriaÁ„o:     15 Jun 2025
+// Cria√ß√£o:     15 Jun 2025
 // Compilador:  Visual C++ 2022
 //
-// DescriÁ„o:   Define o personagem jog·vel Hudson
+// Descri√ß√£o:   Define o personagem jog√°vel Hudson
 //
 **********************************************************************************/
 
@@ -13,10 +13,10 @@
 
 // ---------------------------------------------------------------------------------
 
-#include "Vector.h"                     // representaÁ„o de vetor
+#include "Vector.h"                     // representa√ß√£o de vetor
 #include "Object.h"                     // objetos do jogo
 #include "Sprite.h"
-#include "Types.h"                      // tipos especÌficos da engine
+#include "Types.h"                      // tipos espec√≠ficos da engine
 
 // ---------------------------------------------------------------------------------
 
@@ -36,28 +36,30 @@ private:
     bool started = false;
 
     // constantes de controle 
+
     const float ACCELERATION = 30.0f;
     const float YAW_RESISTANCE = 25.0f;
     const float SKIDDING_ANGLE = 110.0f;
     const float MAXSPEED = 100.0f;
+
 public:
-    Vector direction;                   // direÁ„o 
+    Vector direction;                   // dire√ß√£o 
     Vector speed;                       // velocidade 
 
     Hudson(char, char, char, char, char);                             // construtor    
     ~Hudson();                            // destrutor
 
-    void Forward();                     // propuls„o para frente
-    void Backward();                    // propuls„o para tr·s
+    void Forward();                     // propuls√£o para frente
+    void Backward();                    // propuls√£o para tr√°s
 
-    void Rotate(float angle);           // sobrescreve mÈtodo de Object
-    void Update();                      // atualizaÁ„o
+    void Rotate(float angle);           // sobrescreve m√©todo de Object
+    void Update();                      // atualiza√ß√£o
     void Draw();                        // desenho
 
     void Start();
     void Reset();
 
-	void OnCollision(Object* obj);      // resoluÁ„o da colis„o
+	void OnCollision(Object* obj);      // resolu√ß√£o da colis√£o
 };
 
 // ---------------------------------------------------------------------------------
