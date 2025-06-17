@@ -242,6 +242,11 @@ void Hudson::OnCollision(Object* obj) {
 		this->speed.Add(impactB);
         ball->speed.Add(impactA);
     }
+    else if (obj->Type() == WALL)
+    {
+        // Inverte a direção do carro ao colidir com uma parede
+        speed.Scale(-1.0f);
+    }
 }
 
 // ----------------------------------------------------------------------------------

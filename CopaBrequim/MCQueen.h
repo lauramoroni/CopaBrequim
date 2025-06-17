@@ -36,10 +36,10 @@ private:
     bool started = false;
 
     // constantes de controle 
-    const float ACCELERATION = 35.0f;
+    const float ACCELERATION = 45.0f;
     const float YAW_RESISTANCE = 30.0f;
     const float SKIDDING_ANGLE = 75.0f;
-	const float MAXSPEED = 130.0f;      // velocidade máxima do carro
+	const float MAXSPEED = 50.0f;      // velocidade máxima do carro
 public:
     Vector direction;                   // direção 
     Vector speed;                       // velocidade 

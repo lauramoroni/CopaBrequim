@@ -11,6 +11,7 @@
 
 #include "Ball.h"
 #include "CopaBrequim.h"
+#include "Wall.h"
 
 // ---------------------------------------------------------------------------------
 
@@ -84,6 +85,12 @@ void Ball::Reset() {
 
 // ---------------------------------------------------------------------------------
 
-void Ball::OnCollision(Object* obj) {}
+void Ball::OnCollision(Object* obj) {
+	if (obj->Type() == WALL)
+	{
+		// Inverte a direção do carro ao colidir com uma parede
+		speed.Scale(-1.0f);
+	}
+}
 
 // ---------------------------------------------------------------------------------
