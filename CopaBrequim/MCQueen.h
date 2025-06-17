@@ -36,8 +36,8 @@ private:
     bool started = false;
 
     // constantes de controle 
-    const float ACCELERATION = 25.0f;
-    const float YAW_RESISTANCE = 30.0f;
+    const float ACCELERATION = 225.0f;
+    const float YAW_RESISTANCE = 10.0f;
     const float SKIDDING_ANGLE = 45;
 public:
     Vector direction;                   // direção 

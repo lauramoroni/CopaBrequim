@@ -8,6 +8,7 @@
 #include "Hudson.h"
 #include "Score.h"
 #include "GameOver.h"
+#include "Goal.h"
 
 // ------------------------------------------------------------------------------
 
@@ -34,6 +35,12 @@ void Level1::Init()
 	// cria placar
     this->score = new Score();
     scene->Add(score, STATIC);
+
+    goalLeft = new Goal(true);
+	goalRight = new Goal(false);
+
+	scene->Add(goalLeft, STATIC);
+    scene->Add(goalRight, STATIC);
 
 	// define estado do jogo
 	currentGameState = PAUSED;
