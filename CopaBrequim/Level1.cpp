@@ -23,15 +23,15 @@ void Level1::Init()
 
     // cria paredes
 	// superior
-	Wall* wallUp = new Wall(20.0f, 1024.0f, window->CenterX(), 105.0f, 0.0f);
+	Wall* wallUp = new Wall(20.0f, 1024.0f, window->CenterX(), 75.0f, 0.0f);
 	// inferior
-	Wall* wallDown = new Wall(20.0f, 1024.0f, window->CenterX(), window->Height()-120, 0.0f);
+	Wall* wallDown = new Wall(20.0f, 1024.0f, window->CenterX(), window->Height()-85.0f, 0.0f);
 	// esquerda
-	Wall* wallLeftUp = new Wall(200.0f, 20.0f, 174.0f, window->CenterY() - 248, 90.0f);
-	Wall* wallLeftDown = new Wall(200.0f, 20.0f, 174.0f, window->CenterY() + 140, 90.0f);
+	Wall* wallLeftUp = new Wall(170.0f, 20.0f, 120.0f, window->CenterY() - 240, 90.0f);
+	Wall* wallLeftDown = new Wall(170.0f, 20.0f, 120.0f, window->CenterY() + 150, 90.0f);
 	// direita
-	Wall* wallRightUp = new Wall(200.0f, 20.0f, window->Width()-184.0f, window->CenterY()-248, 90.0f);
-	Wall* wallRightDown = new Wall(200.0f, 20.0f, window->Width()-184.0f, window->CenterY()+140, 90.0f);
+	Wall* wallRightUp = new Wall(170.0f, 20.0f, window->Width()-120.0f, window->CenterY()-240, 90.0f);
+	Wall* wallRightDown = new Wall(170.0f, 20.0f, window->Width()-120.0f, window->CenterY()+150, 90.0f);
 
 	scene->Add(wallUp, STATIC);
 	scene->Add(wallDown, STATIC);
