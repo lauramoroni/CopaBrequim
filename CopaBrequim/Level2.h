@@ -36,7 +36,7 @@ private:
 public:
     void Init();                    // inicializa jogo
     void Update();                  // atualiza l�gica do jogo
-    void OnGoal(bool leftGoal);
+    void OnGoal(uint goalSide);
     void Draw();                    // desenha jogo
     void Finalize();                // finaliza jogo
 };

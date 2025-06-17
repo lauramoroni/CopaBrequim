@@ -37,7 +37,7 @@ public:
     void Init();                    // inicializa jogo
     void Update();                  // atualiza l�gica do jogo
     void Draw();                    // desenha jogo
-    void OnGoal(bool isLeft) override;
+    void OnGoal(uint goalSide) override;
     void Finalize();                // finaliza jogo
 };
 

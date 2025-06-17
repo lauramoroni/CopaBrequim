@@ -36,8 +36,8 @@ void Level2::Init()
     this->score = new Score();
     scene->Add(score, STATIC);
 
-    goalLeft = new Goal(true);
-    goalRight = new Goal(false);
+    goalLeft = new Goal(LEFT, 2);
+    goalRight = new Goal(RIGHT, 2);
 
     scene->Add(goalLeft, STATIC);
     scene->Add(goalRight, STATIC);
@@ -47,8 +47,8 @@ void Level2::Init()
 }
 // ------------------------------------------------------------------------------
 
-void Level2::OnGoal(bool leftGoal) {
-    if (leftGoal) {
+void Level2::OnGoal(uint goalSide) {
+    if (goalSide == LEFT) {
         CopaBrequim::mcQueenScore++;
     }
     else {

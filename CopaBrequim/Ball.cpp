@@ -87,11 +87,11 @@ void Ball::Reset() {
 void Ball::OnCollision(Object* obj) {
 	if (obj->Type() == GOAL && currentLevel) {
 		Goal* goal = static_cast<Goal*>(obj);
-		if (goal->GetTeam()) { // se o gol foi feito na esquerda
-			currentLevel->OnGoal(true);
+		if (goal->GetTeam() == LEFT) { // se o gol foi feito na esquerda
+			currentLevel->OnGoal(LEFT);
 		}
 		else { // se o gol foi na direita
-			currentLevel->OnGoal(false);
+			currentLevel->OnGoal(RIGHT);
 		}
 
 	}

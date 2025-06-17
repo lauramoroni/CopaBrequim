@@ -51,7 +51,7 @@ public:
     virtual void Update() = 0;                  // atualização do jogo
     virtual void Draw() = 0;                    // desenho da cena
     virtual void Finalize() = 0;                // finalização do jogo
-    virtual void OnGoal(bool isLeftGoal) = 0;	// gol do time da esquerda ou direita
+    virtual void OnGoal(uint goalSide) = 0;	// gol do time da esquerda ou direita
 };
 
 // ---------------------------------------------------------------------------------

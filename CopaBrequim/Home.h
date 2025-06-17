@@ -19,7 +19,7 @@ private:
 public:
     void Init();                    // inicializa��o
     void Update();                  // atualiza��o
-    void OnGoal(bool foo) override;
+    void OnGoal(uint foo) override;
     void Draw();                    // desenho
     void Finalize();                // finaliza��o
 };

@@ -39,6 +39,6 @@ void Home::Finalize()
     delete backg;
 }
 
-void Home::OnGoal(bool foo)  {
+void Home::OnGoal(uint foo)  {
 
 }

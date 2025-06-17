@@ -13,17 +13,31 @@
 #include "Goal.h"
 #include "Ball.h"
 
-Goal::Goal(bool isLeft) {
-	if (isLeft) {
-		isLeftSide = true;
-		MoveTo(window->CenterX() - 335, window->CenterY());
-	} else {
-		isLeftSide = false;
-		MoveTo(window->CenterX() + 335, window->CenterY());
+Goal::Goal(uint goalSide, int level) {
+	if (level == 1) {
+		if (goalSide == LEFT) {
+			side = LEFT;
+			MoveTo(window->CenterX() - 335, window->CenterY());
+		}
+		else {
+			side = RIGHT;
+			MoveTo(window->CenterX() + 335, window->CenterY());
+		}
+		BBox(new Rect(-10, -50, 10, 50));
 	}
+	if (level == 2) {
+		if (goalSide == LEFT) {
+			side = LEFT;
+			MoveTo(window->CenterX() - 410, window->CenterY());
+		}
+		else {
+			side = RIGHT;
+			MoveTo(window->CenterX() + 410, window->CenterY());
+		}
+		BBox(new Rect(-10, -70, 10, 70)); // verificar medidas depois
+	}
+
 	type = GOAL;
-	
-	BBox(new Rect(-10, -50, 10, 50)); // verificar medidas depois
 }
 
 Goal::~Goal() {

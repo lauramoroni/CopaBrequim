@@ -36,8 +36,8 @@ void Level1::Init()
     this->score = new Score();
     scene->Add(score, STATIC);
 
-    goalLeft = new Goal(true);
-	goalRight = new Goal(false);
+    goalLeft = new Goal(LEFT, 1);
+	goalRight = new Goal(RIGHT, 1);
 
 	scene->Add(goalLeft, STATIC);
     scene->Add(goalRight, STATIC);
@@ -48,8 +48,8 @@ void Level1::Init()
 
 // ------------------------------------------------------------------------------
 
-void Level1::OnGoal(bool leftGoal) {
-    if (leftGoal) {
+void Level1::OnGoal(uint goalSide) {
+    if (goalSide == LEFT) {
         CopaBrequim::mcQueenScore++;
     }
     else{
@@ -103,25 +103,6 @@ void Level1::Update()
         score->Start();
     }
 
-    //if (ball->X() > window->Width()) // se a bola bate na esquerda da tela
-    //{
-    //    CopaBrequim::hudsonScore++;
-    //    mcQueen->Reset();
-    //    hudson->Reset();
-    //    ball->Reset();
-    //    score->Stop();
-    //    currentGameState = PAUSED;
-    //}
-
-    //if (ball->X() < 0) { // se a bola bate na direita da tela
-    //    CopaBrequim::mcQueenScore++;
-    //    mcQueen->Reset();
-    //    hudson->Reset();
-    //    ball->Reset();
-    //    score->Stop();
-    //    currentGameState = PAUSED;
-    //}
-
     if (CopaBrequim::mcQueenScore == 5 || CopaBrequim::hudsonScore == 5 || score->timeOver) { // condi��es de fim de partida
 		Engine::Next<GameOver>();
 
@@ -138,7 +119,7 @@ void Level1::Update()
 void Level1::Draw()
 {
     // desenha placar
-    score->Draw();
+    score->Draw(); // por que desenhar vários score?
 
     // desenha o background
     backg->Draw(float(window->CenterX()), float(window->CenterY()), Layer::BACK);

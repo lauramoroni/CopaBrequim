@@ -18,23 +18,25 @@
 #include "Animation.h"
 #include "TileSet.h"                   
 
+enum goalSide { LEFT, RIGHT, NONE };
+
 class Goal : public Object
 {
 private:
-	bool isLeftSide;                // se é o gol da esquerda ou direita
+	goalSide side = NONE;
 
 public:
-	Goal(bool isLeft);
+	Goal(uint goalSide, int level);
 	~Goal();
 
-	bool GetTeam();
+	bool GetTeam() const;
 	void Update();
 	void Draw();
 };
 inline void Goal::Draw() {
 }
 
-inline bool Goal::GetTeam() {
-	return isLeftSide;
+inline bool Goal::GetTeam() const {
+	return side;
 }
 #endif
