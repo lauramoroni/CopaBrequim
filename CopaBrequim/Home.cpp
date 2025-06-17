@@ -42,12 +42,8 @@ void Home::Draw()
 void Home::Finalize()
 {
     delete backg;
-<<<<<<< Updated upstream
-=======
     delete CopaBrequim::audio;
 }
-
 void Home::OnGoal(uint foo)  {
 
->>>>>>> Stashed changes
 }

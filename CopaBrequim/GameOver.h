@@ -22,6 +22,7 @@ public:
 	void Init(); // construtor com pontua����es
     void Update();                  // atualiza l�gica do jogo
     void Draw();                    // desenha jogo
+    void OnGoal(uint foo);
     void Finalize();                // finaliza jogo
 };
 

@@ -8,6 +8,7 @@
 #include "Hudson.h"
 #include "Score.h"
 #include "GameOver.h"
+#include "Goal.h"
 #include "Wall.h"
 
 // ------------------------------------------------------------------------------
@@ -48,15 +49,37 @@ void Level1::Init()
 
     // cria bola
     // adiciona bola na cena
-	ball = new Ball();
+	ball = new Ball(this);
     scene->Add(ball, MOVING);
   
 	// cria placar
     this->score = new Score();
     scene->Add(score, STATIC);
 
+    goalLeft = new Goal(LEFT, 1);
+	goalRight = new Goal(RIGHT, 1);
+
+	scene->Add(goalLeft, STATIC);
+    scene->Add(goalRight, STATIC);
+
 	// define estado do jogo
 	currentGameState = PAUSED;
+}
+
+// ------------------------------------------------------------------------------
+
+void Level1::OnGoal(uint goalSide) {
+    if (goalSide == LEFT) {
+        CopaBrequim::mcQueenScore++;
+    }
+    else{
+		CopaBrequim::hudsonScore++;
+    }
+    mcQueen->Reset();
+    hudson->Reset();
+    ball->Reset();
+    score->Stop();
+    currentGameState = PAUSED;
 }
 
 // ------------------------------------------------------------------------------
@@ -100,25 +123,6 @@ void Level1::Update()
         score->Start();
     }
 
-    if (ball->X() > window->Width()) // se a bola bate na esquerda da tela
-    {
-        CopaBrequim::hudsonScore++;
-        mcQueen->Reset();
-        hudson->Reset();
-        ball->Reset();
-        score->Stop();
-        currentGameState = PAUSED;
-    }
-
-    if (ball->X() < 0) { // se a bola bate na direita da tela
-        CopaBrequim::mcQueenScore++;
-        mcQueen->Reset();
-        hudson->Reset();
-        ball->Reset();
-        score->Stop();
-        currentGameState = PAUSED;
-    }
-
     if (CopaBrequim::mcQueenScore == 5 || CopaBrequim::hudsonScore == 5 || score->timeOver) { // condi��es de fim de partida
 		Engine::Next<GameOver>();
 
@@ -135,7 +139,7 @@ void Level1::Update()
 void Level1::Draw()
 {
     // desenha placar
-    score->Draw();
+    score->Draw(); // por que desenhar vários score?
 
     // desenha o background
     backg->Draw(float(window->CenterX()), float(window->CenterY()), Layer::BACK);
