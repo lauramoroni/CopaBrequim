@@ -37,7 +37,7 @@ int APIENTRY WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
     engine->window->Title("CopaBrequim");
     engine->window->Icon(IDI_ICON);
     engine->window->Cursor(IDC_CURSOR);
-    //engine->graphics->VSync(true);
+    engine->graphics->VSync(true);
 
     // inicia o jogo
     int status = engine->Start(new Home());

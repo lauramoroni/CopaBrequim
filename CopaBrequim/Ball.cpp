@@ -59,8 +59,11 @@ Ball::~Ball() {
 
 void Ball::Update() {
 	// friction factor
-	float friction_factor = 1 - gameTime;
-	speed.Scale(friction_factor);
+	float friction_factor = -0.998;
+	Vector friction_vector{ speed.Angle(), friction_factor * speed.Magnitude() * gameTime };
+	speed.Add(friction_vector);
+	if (speed.Magnitude() > MAXSPEED)
+		speed.ScaleTo(MAXSPEED);
 
 	// desloca a bola
 	Translate(speed.XComponent() * gameTime, -speed.YComponent() * gameTime);
