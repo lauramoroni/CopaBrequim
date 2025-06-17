@@ -29,7 +29,7 @@ void Level1::Init()
 
     // cria bola
     // adiciona bola na cena
-	ball = new Ball();
+	ball = new Ball(this);
     scene->Add(ball, MOVING);
   
 	// cria placar
@@ -44,6 +44,22 @@ void Level1::Init()
 
 	// define estado do jogo
 	currentGameState = PAUSED;
+}
+
+// ------------------------------------------------------------------------------
+
+void Level1::OnGoal(bool leftGoal) {
+    if (leftGoal) {
+        CopaBrequim::mcQueenScore++;
+    }
+    else{
+		CopaBrequim::hudsonScore++;
+    }
+    mcQueen->Reset();
+    hudson->Reset();
+    ball->Reset();
+    score->Stop();
+    currentGameState = PAUSED;
 }
 
 // ------------------------------------------------------------------------------
@@ -87,24 +103,24 @@ void Level1::Update()
         score->Start();
     }
 
-    if (ball->X() > window->Width()) // se a bola bate na esquerda da tela
-    {
-        CopaBrequim::hudsonScore++;
-        mcQueen->Reset();
-        hudson->Reset();
-        ball->Reset();
-        score->Stop();
-        currentGameState = PAUSED;
-    }
+    //if (ball->X() > window->Width()) // se a bola bate na esquerda da tela
+    //{
+    //    CopaBrequim::hudsonScore++;
+    //    mcQueen->Reset();
+    //    hudson->Reset();
+    //    ball->Reset();
+    //    score->Stop();
+    //    currentGameState = PAUSED;
+    //}
 
-    if (ball->X() < 0) { // se a bola bate na direita da tela
-        CopaBrequim::mcQueenScore++;
-        mcQueen->Reset();
-        hudson->Reset();
-        ball->Reset();
-        score->Stop();
-        currentGameState = PAUSED;
-    }
+    //if (ball->X() < 0) { // se a bola bate na direita da tela
+    //    CopaBrequim::mcQueenScore++;
+    //    mcQueen->Reset();
+    //    hudson->Reset();
+    //    ball->Reset();
+    //    score->Stop();
+    //    currentGameState = PAUSED;
+    //}
 
     if (CopaBrequim::mcQueenScore == 5 || CopaBrequim::hudsonScore == 5 || score->timeOver) { // condi��es de fim de partida
 		Engine::Next<GameOver>();

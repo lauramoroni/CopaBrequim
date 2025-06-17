@@ -13,10 +13,12 @@
 #include "Goal.h"
 #include "Ball.h"
 
-Goal::Goal(bool isLeftSide) {
-	if (isLeftSide) {
+Goal::Goal(bool isLeft) {
+	if (isLeft) {
+		isLeftSide = true;
 		MoveTo(window->CenterX() - 335, window->CenterY());
 	} else {
+		isLeftSide = false;
 		MoveTo(window->CenterX() + 335, window->CenterY());
 	}
 	type = GOAL;

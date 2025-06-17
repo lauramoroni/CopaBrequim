@@ -29,14 +29,35 @@ void Level2::Init()
 
     // cria bola
     // adiciona bola na cena
-    this->ball = new Ball();
+    this->ball = new Ball(this);
     scene->Add(ball, MOVING);
 
     // cria placar
     this->score = new Score();
     scene->Add(score, STATIC);
 
+    goalLeft = new Goal(true);
+    goalRight = new Goal(false);
+
+    scene->Add(goalLeft, STATIC);
+    scene->Add(goalRight, STATIC);
+
     // define estado do jogo
+    currentGameState = PAUSED;
+}
+// ------------------------------------------------------------------------------
+
+void Level2::OnGoal(bool leftGoal) {
+    if (leftGoal) {
+        CopaBrequim::mcQueenScore++;
+    }
+    else {
+        CopaBrequim::hudsonScore++;
+    }
+    mcQueen->Reset();
+    hudson->Reset();
+    ball->Reset();
+    score->Stop();
     currentGameState = PAUSED;
 }
 

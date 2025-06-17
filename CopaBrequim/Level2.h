@@ -10,6 +10,7 @@
 #include "MCQueen.h"
 #include "Hudson.h"
 #include "Ball.h"
+#include "Goal.h"
 #include "Score.h"
 // ------------------------------------------------------------------------------
 
@@ -22,6 +23,8 @@ private:
     Hudson* hudson;				   // Hudson
     Ball* ball;
     Score* score;
+    Goal* goalLeft;                   // gol esquerda
+    Goal* goalRight;                  // gol direita
 
     enum gameState { PAUSED, RUNNING }; // necessário aos resets globais
     gameState currentGameState;
@@ -33,6 +36,7 @@ private:
 public:
     void Init();                    // inicializa jogo
     void Update();                  // atualiza l�gica do jogo
+    void OnGoal(bool leftGoal);
     void Draw();                    // desenha jogo
     void Finalize();                // finaliza jogo
 };

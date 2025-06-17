@@ -21,14 +21,20 @@
 class Goal : public Object
 {
 private:
+	bool isLeftSide;                // se é o gol da esquerda ou direita
 
 public:
-	Goal(bool isLeftSide);
+	Goal(bool isLeft);
 	~Goal();
 
+	bool GetTeam();
 	void Update();
 	void Draw();
 };
 inline void Goal::Draw() {
+}
+
+inline bool Goal::GetTeam() {
+	return isLeftSide;
 }
 #endif

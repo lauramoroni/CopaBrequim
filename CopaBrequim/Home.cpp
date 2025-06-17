@@ -38,3 +38,7 @@ void Home::Finalize()
 {
     delete backg;
 }
+
+void Home::OnGoal(bool foo)  {
+
+}

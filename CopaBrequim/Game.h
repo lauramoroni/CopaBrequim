@@ -40,6 +40,8 @@ public:
     // funcionalidade específica para o jogo. Eles já possuem
     // uma implementação padrão.
 
+	
+
     virtual void OnPause();                     // pausa do jogo
 
     // Estes métodos são puramente virtuais, isto é, devem ser 
@@ -49,6 +51,7 @@ public:
     virtual void Update() = 0;                  // atualização do jogo
     virtual void Draw() = 0;                    // desenho da cena
     virtual void Finalize() = 0;                // finalização do jogo
+    virtual void OnGoal(bool isLeftGoal) = 0;	// gol do time da esquerda ou direita
 };
 
 // ---------------------------------------------------------------------------------
