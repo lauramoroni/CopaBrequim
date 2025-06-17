@@ -97,7 +97,7 @@ void MCQueen::Backward()
     // impulsiona para trás
     Vector reverse_thrust;
     reverse_thrust.RotateTo(direction.Angle() < 180 ? direction.Angle() + 180.0f : direction.Angle() - 180.0f);
-    reverse_thrust.ScaleTo(ACCELERATION * gameTime);
+    reverse_thrust.ScaleTo(ACCELERATION * 1.5f * gameTime);
     speed.Add(reverse_thrust);
 }
 
@@ -131,8 +131,11 @@ void MCQueen::Update()
     // - quanto mais perto de 1 maior a conservação da velocidade
     // - quanto maior a diferença entre a direção e a velocidade, maior a perda de velocidade (derrapagem)
     // fator_maximo - (diferença entre ângulos / angulo_de_derrapagem) * gameTime
-    float friction_factor = 0.998f - (abs(speed.Angle() - direction.Angle()) / SKIDDING_ANGLE) * gameTime;
-    speed.Scale(friction_factor);
+    float friction_factor = -0.998f - (abs(speed.Angle() - direction.Angle()) / SKIDDING_ANGLE);
+	Vector friction_vector{ speed.Angle(), friction_factor * speed.Magnitude() * gameTime };
+	speed.Add(friction_vector);
+	if (speed.Magnitude() > MAXSPEED)
+		speed.ScaleTo(MAXSPEED);
 
     // rotaciona
     if (window->KeyDown(right))
@@ -229,7 +232,7 @@ void MCQueen::OnCollision(Object* obj) {
         float angleB = angleA + 180.0f;
 
         // vetor de impacto
-        Vector impactA{ angleA, 0.40f * speed.Magnitude() };
+        Vector impactA{ angleA, 0.60f * speed.Magnitude() };
         Vector impactB{ angleB, 0.0005f * ball->speed.Magnitude() };
 
         if (impactA.Magnitude() < ball->speed.Magnitude())

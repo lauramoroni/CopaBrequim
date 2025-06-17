@@ -27,6 +27,8 @@ private:
     Sprite* ballSprite;
 	bool started = false;
 
+    const float MAXSPEED = 350.0f;
+
 public:
     Vector speed;                           // velocidade da rocha
     Ball();                                 // construtor
