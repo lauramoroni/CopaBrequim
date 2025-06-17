@@ -26,6 +26,8 @@
 
 enum CopaBrequimObjects { CAR, BALL, WALL }; 
 
+enum Sounds { INTRO, MCQUEEN_GOAL, HUDSON_GOAL, ENGINE };
+
 // ------------------------------------------------------------------------------
 
 class CopaBrequim : public Game

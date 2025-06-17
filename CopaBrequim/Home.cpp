@@ -2,11 +2,15 @@
 #include "Engine.h"
 #include "Home.h"
 #include "Level1.h"
+#include "CopaBrequim.h"
 
 void Home::Init()
 {
     backg = new Sprite("Resources/Background/tela-abertura.png");
 
+	CopaBrequim::audio = new Audio();
+	CopaBrequim::audio->Add(INTRO, "Resources/Audio/life-is-a-highway.wav");
+    CopaBrequim::audio->Play(INTRO);
 }
 
 void Home::Update()
@@ -25,6 +29,7 @@ void Home::Update()
 
     if (window->KeyDown(VK_RETURN))
         Engine::Next<Level1>();
+        return;
 
 }
 
@@ -37,4 +42,12 @@ void Home::Draw()
 void Home::Finalize()
 {
     delete backg;
+<<<<<<< Updated upstream
+=======
+    delete CopaBrequim::audio;
+}
+
+void Home::OnGoal(uint foo)  {
+
+>>>>>>> Stashed changes
 }
