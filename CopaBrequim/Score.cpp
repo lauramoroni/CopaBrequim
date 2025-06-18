@@ -89,20 +89,20 @@ void Score::Update() {
 void Score::Draw() {
 
 	// desenha placar
-	keyMap->Draw(window->CenterX(), window->Height() - 20.0f, Layer::FRONT);
+	keyMap->Draw(window->CenterX(), window->Height() - 650.0f, Layer::FRONT);
 
 	// desenha tempo e placar
 	Color gray{ 0.70f, 0.70f, 0.70f, 1.0f };
 	Color black{ 0.0f, 0.0f, 0.0f, 1.0f };	
 
-	font->Draw(window->CenterX() - 130.0f, window->Height() - 4.0f, to_string(CopaBrequim::hudsonScore), gray);
-	font->Draw(window->CenterX() + 150.0f, window->Height() - 4.0f, to_string(CopaBrequim::mcQueenScore), gray);
+	font->Draw(window->CenterX() - 130.0f, window->Height() - 635.0f, to_string(CopaBrequim::hudsonScore), gray);
+	font->Draw(window->CenterX() + 150.0f, window->Height() - 635.0f, to_string(CopaBrequim::mcQueenScore), gray);
 
 	tip->Draw(100.0f, window->Height() - 40.0f, Layer::FRONT);
 
 	if (timerOn) { // atualiza o rel�gio da partida
 		string elapsedTime = to_string(maxTime - (int)timer->Elapsed()); //TODO bug-fix: timer pausado n�o � exibido corretamente
-		font->Draw(window->CenterX(), window->Height() - 14.0f, elapsedTime, gray, Layer::FRONT);
+		font->Draw(window->CenterX(), window->Height() - 645.0f, elapsedTime, gray, Layer::FRONT);
 	}
 	else {
 		pressEnter->Draw(window->CenterX(), window->CenterY(), Layer::FRONT);
