@@ -20,6 +20,10 @@ void GameOver::Init()
 	else
 		backg = new Sprite("Resources/Background/draw.png");
 
+	//CopaBrequim::audio = new Audio();
+	//CopaBrequim::audio->Add(GAMEOVER, "Resources/Audio/opening-race.wav");
+	//CopaBrequim::audio->Play(GAMEOVER);
+
 }
 
 // ----------------------------------------------------------------------
@@ -54,6 +58,7 @@ void GameOver::OnGoal(uint foo) {
 void GameOver::Finalize()
 {
     delete backg;
+	//delete CopaBrequim::audio;
 }
 
 // ----------------------------------------------------------------------

@@ -14,6 +14,11 @@
 
 void Level2::Init()
 {
+    // sistema de audio
+    CopaBrequim::audio = new Audio();
+    CopaBrequim::audio->Add(MCQUEEN_GOAL, "Resources/Audio/mcqueen-goal.wav");
+	CopaBrequim::audio->Add(HUDSON_GOAL, "Resources/Audio/hudson-goal.wav");
+
     // cria gerenciador de cena
     this->scene = new Scene();
 
@@ -50,9 +55,11 @@ void Level2::Init()
 void Level2::OnGoal(uint goalSide) {
     if (goalSide == LEFT) {
         CopaBrequim::mcQueenScore++;
+		CopaBrequim::audio->Play(MCQUEEN_GOAL);
     }
     else {
         CopaBrequim::hudsonScore++;
+		CopaBrequim::audio->Play(HUDSON_GOAL);
     }
     mcQueen->Reset();
     hudson->Reset();
@@ -153,4 +160,5 @@ void Level2::Finalize()
 {
     delete backg;
     delete scene;
+    delete CopaBrequim::audio;
 }
