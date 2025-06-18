@@ -79,10 +79,12 @@ void Level2::OnGoal(uint goalSide) {
     hudson->Reset();
     if (goalSide == LEFT) {
         CopaBrequim::mcQueenScore++;
+        CopaBrequim::audio->Volume(MCQUEEN_GOAL, 2.0f);
 		CopaBrequim::audio->Play(MCQUEEN_GOAL);
     }
     else {
         CopaBrequim::hudsonScore++;
+		CopaBrequim::audio->Volume(HUDSON_GOAL, 2.0f);
 		CopaBrequim::audio->Play(HUDSON_GOAL);
     }
     ball->Reset();
