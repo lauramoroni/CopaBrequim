@@ -24,15 +24,11 @@
 
 // ------------------------------------------------------------------------------
 
-enum CopaBrequimObjects { CAR, BALL, STATIC_BARRIERS, MOVING_BARRIERS, GOAL }; 
+enum CopaBrequimObjects { CAR, BALL, STATIC_BARRIERS, MOVING_BARRIERS, GOAL, WALL }; 
 	// static barriers = obstaculos estaticos, como paredes, trave, pilastres etc  
 	// moving barriers = obstaculos em movimentos, como um carro ou uma barra se movimentando na tela pra atrapalhar os players
 
-<<<<<<< Updated upstream
-=======
 enum Sounds { INTRO, MCQUEEN_GOAL, HUDSON_GOAL, ENGINE, GAMEOVER };
-
->>>>>>> Stashed changes
 // ------------------------------------------------------------------------------
 
 class CopaBrequim : public Game

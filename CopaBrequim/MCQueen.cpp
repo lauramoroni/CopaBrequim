@@ -1,10 +1,10 @@
-/**********************************************************************************
-// MCQueen (CÛdigo Fonte)
+Ôªø/**********************************************************************************
+// MCQueen (C√≥digo Fonte)
 //
-// CriaÁ„o:     15 Jun 2025
+// Cria√ß√£o:     15 Jun 2025
 // Compilador:  Visual C++ 2022
 //
-// DescriÁ„o:   Define o personagem jog·vel MCQueen
+// Descri√ß√£o:   Define o personagem jog√°vel MCQueen
 //
 **********************************************************************************/
 
@@ -12,12 +12,13 @@
 #include "CopaBrequim.h"
 #include "Ball.h"
 #include "Hudson.h"
+#include "Wall.h"
 
 // ---------------------------------------------------------------------------------
 
 MCQueen::MCQueen(char up, char right, char down, char left, char init_side)
 {
-    // inicializa animaÁ„o 
+    // inicializa anima√ß√£o 
     carSprite = new Sprite("Resources/mcqueen.png");
 
     // cria bounding box
@@ -30,17 +31,17 @@ MCQueen::MCQueen(char up, char right, char down, char left, char init_side)
 
     BBox(new Poly(carVertex, 4));
 
-    // posiÁ„o inicial 
+    // posi√ß√£o inicial 
     initial_side = toupper(init_side);
     if (initial_side == 'L')
         MoveTo(window->CenterX() - 250, window->CenterY());
     else if (initial_side == 'R')
         MoveTo(window->CenterX() + 250, window->CenterY());
 
-    // escala e rotaÁ„o 
+    // escala e rota√ß√£o 
     ScaleTo(1.5f);
 
-    // inicializa direÁ„o e velocidade 
+    // inicializa dire√ß√£o e velocidade 
     if (initial_side == 'L') {
         RotateTo(90.0f);
         direction.RotateTo(0.0f);  // esquerda
@@ -63,7 +64,7 @@ MCQueen::MCQueen(char up, char right, char down, char left, char init_side)
     type = CAR;
 
     // idle sound
-    //CopaBrequim::audio->Play(IDLE, true);  // som de inÈrcia 
+    //CopaBrequim::audio->Play(IDLE, true);  // som de in√©rcia 
 }
 
 // ---------------------------------------------------------------------------------
@@ -94,7 +95,7 @@ void MCQueen::Forward()
 
 void MCQueen::Backward()
 {
-    // impulsiona para tr·s
+    // impulsiona para tr√°s
     Vector reverse_thrust;
     reverse_thrust.RotateTo(direction.Angle() < 180 ? direction.Angle() + 180.0f : direction.Angle() - 180.0f);
     reverse_thrust.ScaleTo(ACCELERATION * 1.5f * gameTime);
@@ -105,15 +106,15 @@ void MCQueen::Backward()
 
 void MCQueen::Rotate(float angle)
 {
-    // ajusta a rotaÁ„o para depender da velocidade
-	angle = angle * (speed.Magnitude() / YAW_RESISTANCE);  // quanto maior o YAW_RESISTANCE, menor a velocidade de rotaÁ„o
+    // ajusta a rota√ß√£o para depender da velocidade
+	angle = angle * (speed.Magnitude() / YAW_RESISTANCE);  // quanto maior o YAW_RESISTANCE, menor a velocidade de rota√ß√£o
 
     // rotaciona objeto e vetor
     Object::Rotate(angle);
     direction.Rotate(angle);
 
-    if (!window->KeyDown('K')) // K È a tecla de drift
-	    speed.Rotate(angle);  // mantÈm a velocidade na direÁ„o atual
+    if (!window->KeyDown('K')) // K √© a tecla de drift
+	    speed.Rotate(angle);  // mant√©m a velocidade na dire√ß√£o atual
 }
 
 // -------------------------------------------------------------------------------
@@ -121,16 +122,16 @@ void MCQueen::Rotate(float angle)
 void MCQueen::Update()
 {
     if (!started)
-		return;  // n„o atualiza se o carro n„o foi iniciado
+		return;  // n√£o atualiza se o carro n√£o foi iniciado
 
 
-    // deslocamento padr„o
+    // deslocamento padr√£o
     float delta = 100 * gameTime;
 
     // fator de atrito
-    // - quanto mais perto de 1 maior a conservaÁ„o da velocidade
-    // - quanto maior a diferenÁa entre a direÁ„o e a velocidade, maior a perda de velocidade (derrapagem)
-    // fator_maximo - (diferenÁa entre ‚ngulos / angulo_de_derrapagem) * gameTime
+    // - quanto mais perto de 1 maior a conserva√ß√£o da velocidade
+    // - quanto maior a diferen√ßa entre a dire√ß√£o e a velocidade, maior a perda de velocidade (derrapagem)
+    // fator_maximo - (diferen√ßa entre √¢ngulos / angulo_de_derrapagem) * gameTime
     float friction_factor = -0.998f - (abs(speed.Angle() - direction.Angle()) / SKIDDING_ANGLE);
 	Vector friction_vector{ speed.Angle(), friction_factor * speed.Magnitude() * gameTime };
 	speed.Add(friction_vector);
@@ -160,7 +161,7 @@ void MCQueen::Update()
     //    CopaBrequim::audio->Play(LOOPDOWN, true);
     //}
     //
-    //// liberaÁ„o de teclas
+    //// libera√ß√£o de teclas
     //if (window->KeyUp(up))
     //{
     //    CopaBrequim::audio->Stop(JETUP);
@@ -172,7 +173,7 @@ void MCQueen::Update()
     //    CopaBrequim::audio->Stop(LOOPDOWN);
     //}
 
-    // inÈrcia desloca constantemente atravÈs do vetor speed
+    // in√©rcia desloca constantemente atrav√©s do vetor speed
     Translate(speed.XComponent() * 0.1f * delta, -speed.YComponent() * 0.1f * delta);
 
     // faz o carro girar ao redor da tela
@@ -202,13 +203,13 @@ void MCQueen::OnCollision(Object* obj) {
         MCQueen* carA = this;
         Hudson* carB = static_cast<Hudson*>(obj);
 
-        // ‚ngulo formado pela linha que interliga os centros
+        // √¢ngulo formado pela linha que interliga os centros
         Point pA{ carA->X(), carA->Y() };
         Point pB{ carB->X(), carB->Y() };
         float angleA = Line::Angle(pA, pB);
         float angleB = angleA + 180.0f;
 
-        // mantÈm ‚ngulo na faixa de 0 a 359 graus
+        // mant√©m √¢ngulo na faixa de 0 a 359 graus
         if (angleB > 360)
             angleB -= 360.0f;
 
@@ -216,7 +217,7 @@ void MCQueen::OnCollision(Object* obj) {
         Vector impactA{ angleA, 0.05f * carA->speed.Magnitude() };
         Vector impactB{ angleB, 0.05f * carB->speed.Magnitude() };
 
-        // adiciona vetor impacto ‡ velocidade
+        // adiciona vetor impacto √† velocidade
         carA->speed.Add(impactB);
         carB->speed.Add(impactA);
 	}
@@ -225,7 +226,7 @@ void MCQueen::OnCollision(Object* obj) {
         // bola colidiu com o carro
         Ball* ball = static_cast<Ball*>(obj);
 
-        // ‚ngulo formado pela linha que interliga os centros
+        // √¢ngulo formado pela linha que interliga os centros
         Point pA{ x, y };
         Point pB{ ball->X(), ball->Y() };
         float angleA = Line::Angle(pA, pB);
@@ -238,9 +239,54 @@ void MCQueen::OnCollision(Object* obj) {
         if (impactA.Magnitude() < ball->speed.Magnitude())
             impactA.ScaleTo(ball->speed.Magnitude());
 
-        // adiciona vetor impacto ‡ velocidade da bola
+        // adiciona vetor impacto √† velocidade da bola
         this->speed.Add(impactB);
         ball->speed.Add(impactA);
+    }
+    else if (obj->Type() == WALL)
+    {
+        Wall* wall = static_cast<Wall*>(obj);
+
+        // C√°lculo da normal da colis√£o
+
+        float vec_x = this->X() - wall->X();
+        float vec_y = -(this->Y() - wall->Y());
+
+        // Eixos da parede (paredes com rota√ß√£o ainda t√° bugado)
+        Vector wallAxisX(0, 1);
+        wallAxisX.RotateTo(wall->Angle());
+
+        Vector wallAxisY(90, 1);
+        wallAxisY.RotateTo(wall->Angle() + 90.0f);
+
+        Vector normal;
+
+        float projX = (vec_x * wallAxisX.XComponent()) + (vec_y * wallAxisX.YComponent());
+        float projY = (vec_x * wallAxisY.XComponent()) + (vec_y * wallAxisY.YComponent());
+
+        if (abs(projX) / wall->Width() > abs(projY) / wall->Length())
+        {
+            normal = wallAxisX;
+            if (projX < 0) normal.Rotate(180);
+        }
+        else
+        {
+            normal = wallAxisY;
+            if (projY < 0) normal.Rotate(180);
+        }
+
+        // Vetor de rea√ß√£o √† colis√£o
+
+        float elasticity = 0.25f;
+        Vector v = this->speed;
+        float j = -(1 + elasticity) * Vector::Dot(v, normal);
+        Vector impulse = normal;
+        impulse.ScaleTo(j);
+        this->speed.Add(impulse);
+
+        // Corre√ß√£o final de posi√ß√£o
+        float push_factor = 1.0f;
+        Translate(normal.XComponent() * push_factor, -normal.YComponent() * push_factor);
     }
 }
 
@@ -251,7 +297,7 @@ void MCQueen::Reset()
     // reinicia o carro
     started = false;
 
-    // inicializa direÁ„o e velocidade 
+    // inicializa dire√ß√£o e velocidade 
     if (initial_side == 'L') {
         RotateTo(90.0f);
         direction.RotateTo(0.0f);  // esquerda

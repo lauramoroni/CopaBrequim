@@ -9,6 +9,7 @@
 #include "MCQueen.h"
 #include "Hudson.h"
 #include "Score.h"
+#include "Wall.h"
 
 // ------------------------------------------------------------------------------
 
@@ -23,7 +24,28 @@ void Level2::Init()
     this->scene = new Scene();
 
     // cria background
-    this->backg = new Sprite("Resources/Background/Level2.png"); // TO-DO: acrescentar imagem correta do level2
+    this->backg = new Sprite("Resources/Background/Level2.png");
+
+    // cria paredes
+    // superior
+    Wall* wallUp = new Wall(20.0f, window->Width(), window->CenterX(), 86.0f, 90.0f);
+    // inferior
+    Wall* wallDown = new Wall(20.0f, window->Width(), window->CenterX(), window->Height() - 88.0f, 90.0f);
+
+    // esquerda antes e depois do gol
+    Wall* wallLeftUp = new Wall(20.0f, 200.0f, 112.0f, window->CenterY() - 170.0f, 0.0f);
+    Wall* wallLeftDown = new Wall(20.0f, 200.0f, 112.0f, window->CenterY() + 168.0f, 0.0f);
+
+    // direita antes e depois do gol
+    Wall* wallRightUp = new Wall(20.0f, 200.0f, window->Width() - 115.0f, window->CenterY() - 170.0f, 0.0f);
+    Wall* wallRightDown = new Wall(20.0f, 200.0f, window->Width() - 115.0f, window->CenterY() + 168.0f, 0.0f);
+
+    scene->Add(wallUp, STATIC);
+    scene->Add(wallDown, STATIC);
+    scene->Add(wallLeftUp, STATIC);
+    scene->Add(wallLeftDown, STATIC);
+    scene->Add(wallRightUp, STATIC);
+    scene->Add(wallRightDown, STATIC);
 
     // cria players
     this->mcQueen = new MCQueen(VK_UP, VK_RIGHT, VK_DOWN, VK_LEFT, 'R');

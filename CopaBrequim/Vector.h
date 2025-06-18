@@ -40,6 +40,22 @@ public:
     float XComponent() const;           // retorna componente X do vetor
     float YComponent() const;           // retorna componente Y do vetor
     float Radians() const;              // retorna ângulo em radianos
+
+	// dot product
+	static float Dot(const Vector& a, const Vector& b)
+	{
+		return (a.XComponent() * b.XComponent() + a.YComponent() * b.YComponent());
+	}
+
+    // normalize
+	void Normalize()
+	{
+		if (magnitude != 0)
+		{
+			angle = atan2(YComponent(), XComponent()) * 180.0 / PI;
+			magnitude = 1.0f; // normaliza a magnitude para 1
+		}
+	}
 }; 
 
 // ---------------------------------------------------------------------------------
