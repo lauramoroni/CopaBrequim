@@ -63,14 +63,18 @@ MCQueen::MCQueen(char up, char right, char down, char left, char init_side)
     // tipo do objeto
     type = CAR;
 
-    // idle sound
-    //CopaBrequim::audio->Play(IDLE, true);  // som de inércia 
+    // sound
+	CopaBrequim::audio->Add(MCQUEEN_ENGINE, "Resources/Audio/mcqueen_engine.wav");
+	CopaBrequim::audio->Volume(MCQUEEN_ENGINE, MIN_ENGINE_VOLUME);
+    CopaBrequim::audio->Frequency(MCQUEEN_ENGINE, MIN_ENGINE_FREQ);
+	CopaBrequim::audio->Play(MCQUEEN_ENGINE, true);
 }
 
 // ---------------------------------------------------------------------------------
 
 MCQueen::~MCQueen()
 {
+	CopaBrequim::audio->Stop(MCQUEEN_ENGINE);
     delete carSprite;
 }
 
@@ -150,28 +154,9 @@ void MCQueen::Update()
     if (window->KeyDown(down))
         Backward();
 
-    // audio
-    //if (window->KeyPress(up))
-    //{
-    //    CopaBrequim::audio->Play(LOOPUP, true);
-    //}
-    //if (window->KeyPress(down))
-    //{
-    //    CopaBrequim::audio->Play(JETDOWN);
-    //    CopaBrequim::audio->Play(LOOPDOWN, true);
-    //}
-    //
-    //// liberação de teclas
-    //if (window->KeyUp(up))
-    //{
-    //    CopaBrequim::audio->Stop(JETUP);
-    //    CopaBrequim::audio->Stop(LOOPUP);
-    //}
-    //if (window->KeyUp(down))
-    //{
-    //    CopaBrequim::audio->Stop(JETDOWN);
-    //    CopaBrequim::audio->Stop(LOOPDOWN);
-    //}
+    // audio: ajusta o volume e frequencia do motor dependendo da velocidade
+    CopaBrequim::audio->Volume(MCQUEEN_ENGINE, 0.1 + speed.Magnitude() / MAXSPEED);
+    CopaBrequim::audio->Frequency(MCQUEEN_ENGINE, 0.1f + speed.Magnitude() / MAXSPEED);
 
     // inércia desloca constantemente através do vetor speed
     Translate(speed.XComponent() * 0.1f * delta, -speed.YComponent() * 0.1f * delta);
@@ -311,4 +296,8 @@ void MCQueen::Reset()
 
     direction.ScaleTo(10.0f);
     speed.ScaleTo(0.0f);
+
+    // Engine default audio
+	CopaBrequim::audio->Volume(MCQUEEN_ENGINE, MIN_ENGINE_VOLUME);
+    CopaBrequim::audio->Frequency(MCQUEEN_ENGINE, MIN_ENGINE_FREQ);
 }

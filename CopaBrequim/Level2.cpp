@@ -75,6 +75,8 @@ void Level2::Init()
 // ------------------------------------------------------------------------------
 
 void Level2::OnGoal(uint goalSide) {
+    mcQueen->Reset();
+    hudson->Reset();
     if (goalSide == LEFT) {
         CopaBrequim::mcQueenScore++;
 		CopaBrequim::audio->Play(MCQUEEN_GOAL);
@@ -83,8 +85,6 @@ void Level2::OnGoal(uint goalSide) {
         CopaBrequim::hudsonScore++;
 		CopaBrequim::audio->Play(HUDSON_GOAL);
     }
-    mcQueen->Reset();
-    hudson->Reset();
     ball->Reset();
     score->Stop();
     currentGameState = PAUSED;
