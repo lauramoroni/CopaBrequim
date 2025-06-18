@@ -76,6 +76,8 @@ void Level1::Init()
 // ------------------------------------------------------------------------------
 
 void Level1::OnGoal(uint goalSide) {
+    mcQueen->Reset();
+    hudson->Reset();
     if (goalSide == LEFT) {
         CopaBrequim::mcQueenScore++;
 		CopaBrequim::audio->Volume(MCQUEEN_GOAL, 1.5f); // volume aumentado para o gol do McQueen
@@ -86,8 +88,6 @@ void Level1::OnGoal(uint goalSide) {
 		CopaBrequim::audio->Volume(HUDSON_GOAL, 1.5f); // volume aumentado para o gol do Hudson
 		CopaBrequim::audio->Play(HUDSON_GOAL);
     }
-    mcQueen->Reset();
-    hudson->Reset();
     ball->Reset();
     score->Stop();
     currentGameState = PAUSED;

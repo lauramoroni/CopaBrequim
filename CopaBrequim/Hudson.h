@@ -40,6 +40,8 @@ private:
     const float YAW_RESISTANCE = 25.0f;
     const float SKIDDING_ANGLE = 110.0f;
     const float MAXSPEED = 40.0f;
+	const float MIN_ENGINE_VOLUME = 0.3f;
+	const float MIN_ENGINE_FREQ = 0.2f;
 public:
     Vector direction;                   // direção 
     Vector speed;                       // velocidade 

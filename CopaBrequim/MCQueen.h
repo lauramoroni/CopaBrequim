@@ -39,7 +39,9 @@ private:
     const float ACCELERATION = 45.0f;
     const float YAW_RESISTANCE = 30.0f;
     const float SKIDDING_ANGLE = 75.0f;
-	const float MAXSPEED = 50.0f;      // velocidade m�xima do carro
+	const float MAXSPEED = 50.0f;
+	const float MIN_ENGINE_VOLUME = 0.3f;
+	const float MIN_ENGINE_FREQ = 0.2f;
 public:
     Vector direction;                   // direção 
     Vector speed;                       // velocidade 
