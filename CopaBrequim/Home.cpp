@@ -7,9 +7,9 @@
 void Home::Init()
 {
     backg = new Sprite("Resources/Background/tela-abertura.png");
-
-	CopaBrequim::audio = new Audio();
-	CopaBrequim::audio->Add(INTRO, "Resources/Audio/life-is-a-highway.wav");
+  
+	  CopaBrequim::audio = new Audio();
+	  CopaBrequim::audio->Add(INTRO, "Resources/Audio/life-is-a-highway.wav");
     CopaBrequim::audio->Play(INTRO);
 }
 
