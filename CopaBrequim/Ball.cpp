@@ -99,10 +99,48 @@ void Ball::OnCollision(Object* obj) {
 		}
 	}
 
-		if (obj->Type() == WALL)
+	else if (obj->Type() == WALL)
 	{
-		// Inverte a direção do carro ao colidir com uma parede
-		speed.Scale(-1.0f);
+		// --- INÍCIO DA LÓGICA DE COLISÃO REALISTA (IDÊNTICA À DO CARRO) ---
+
+		Wall* wall = static_cast<Wall*>(obj);
+
+		// --- CÁLCULO DA NORMAL DA COLISÃO ---
+		float vec_x = this->X() - wall->X();
+		float vec_y = -(this->Y() - wall->Y()); // Invertendo Y para o cálculo
+
+		Vector wallAxisX(0, 1);
+		wallAxisX.RotateTo(wall->Angle());
+		Vector wallAxisY(90, 1);
+		wallAxisY.RotateTo(wall->Angle() + 90.0f);
+
+		Vector normal;
+
+		float projX = (vec_x * wallAxisX.XComponent()) + (vec_y * wallAxisX.YComponent());
+		float projY = (vec_x * wallAxisY.XComponent()) + (vec_y * wallAxisY.YComponent());
+
+		if (abs(projX) / wall->Width() > abs(projY) / wall->Length())
+		{
+			normal = wallAxisX;
+			if (projX < 0) normal.Rotate(180);
+		}
+		else
+		{
+			normal = wallAxisY;
+			if (projY < 0) normal.Rotate(180);
+		}
+
+		// --- RESPOSTA FÍSICA À COLISÃO ---
+		float elasticity = 0.8f; // Bolas são mais "elásticas"
+		Vector v = this->speed;
+		float j = -(1 + elasticity) * Vector::Dot(v, normal);
+		Vector impulse = normal;
+		impulse.ScaleTo(j);
+		this->speed.Add(impulse);
+
+		// --- CORREÇÃO DE POSIÇÃO ---
+		float push_factor = 1.0f;
+		Translate(normal.XComponent() * push_factor, -normal.YComponent() * push_factor);
 	}
 
 }

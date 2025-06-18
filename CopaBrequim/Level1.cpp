@@ -23,15 +23,17 @@ void Level1::Init()
 
     // cria paredes
 	// superior
-	Wall* wallUp = new Wall(20.0f, 1024.0f, window->CenterX(), 75.0f, 0.0f);
+	Wall* wallUp = new Wall(20.0f, window->Width(), window->CenterX(), 86.0f, 90.0f);
 	// inferior
-	Wall* wallDown = new Wall(20.0f, 1024.0f, window->CenterX(), window->Height()-85.0f, 0.0f);
-	// esquerda
-	Wall* wallLeftUp = new Wall(170.0f, 20.0f, 120.0f, window->CenterY() - 240, 90.0f);
-	Wall* wallLeftDown = new Wall(170.0f, 20.0f, 120.0f, window->CenterY() + 150, 90.0f);
-	// direita
-	Wall* wallRightUp = new Wall(170.0f, 20.0f, window->Width()-120.0f, window->CenterY()-240, 90.0f);
-	Wall* wallRightDown = new Wall(170.0f, 20.0f, window->Width()-120.0f, window->CenterY()+150, 90.0f);
+	Wall* wallDown = new Wall(20.0f, window->Width(), window->CenterX(), window->Height() - 88.0f, 90.0f);
+
+    // esquerda antes e depois do gol
+	Wall* wallLeftUp = new Wall(20.0f, 200.0f, 135.0f, window->CenterY() - 170.0f, 0.0f);
+	Wall* wallLeftDown = new Wall(20.0f, 200.0f, 135.0f, window->CenterY() + 168.0f, 0.0f);
+
+	// direita antes e depois do gol
+	Wall* wallRightUp = new Wall(20.0f, 200.0f, window->Width() - 124.0f, window->CenterY() - 170.0f, 0.0f);
+	Wall* wallRightDown = new Wall(20.0f, 200.0f, window->Width() - 124.0f, window->CenterY() + 168.0f, 0.0f);
 
 	scene->Add(wallUp, STATIC);
 	scene->Add(wallDown, STATIC);

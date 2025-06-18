@@ -25,6 +25,7 @@ public:
 	
 	float Width() const { return width; }
 	float Length() const { return lenght; }
+	float Angle() const { return rotation; }
 };
 
 #endif
